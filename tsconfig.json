@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES5",
+    "module": "ESNext",
+    "jsx": "react",
+    "outDir": "./dist",
+    "strict": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "paths": {
+      "@/styles/*": ["./src/styles/*"]
+    }
+  },
+  "include": ["src"]
+}
