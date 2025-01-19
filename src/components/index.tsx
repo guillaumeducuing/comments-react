@@ -262,15 +262,19 @@ const Comments: React.FC<CommentProps> = ({
   };
 
   return (
-    <section className="pt-[60px] pb-[60px] bg-slate-50 z-10 relative">
+    <section className="pt-[60px] pb-[60px] bg-white z-10 relative">
       <div className="container mx-auto">
         <div className={styles.container}>
           <div className="flex justify-between">
-            <div className="flex h-full sticky top-[120px]">
+            <div className="flex h-full sticky top-[120px] w-[500px]">
               {user ? (
                 <form
                   onSubmit={handleSubmit}
-                  className={editingCommentId ? styles.editing : ""}
+                  className={
+                    editingCommentId
+                      ? styles.editing
+                      : "flex  flex-col w-full gap-4"
+                  }
                 >
                   <div className="flex items-center gap-[10px]">
                     <img
@@ -278,7 +282,7 @@ const Comments: React.FC<CommentProps> = ({
                       alt={user.displayName || undefined}
                       className="w-[40px] h-[40px] rounded-full"
                     />
-                    <h3 className="text-l font-bold text-black">
+                    <h3 className="text-xl font-grotesk-variable text-black">
                       {formatUsername(user.displayName)}
                     </h3>
                     {user && (
@@ -313,7 +317,7 @@ const Comments: React.FC<CommentProps> = ({
                     maxLength={maxLength}
                     placeholder={texts.placeholder}
                     required
-                    className="h-[100px] font-medium resize-none outline-none p-[10px] border-gray-500 border-1 rounded-8 w-full"
+                    className="h-[150px] font-inter-regular resize-none outline-none p-[10px] border-gray-500 border-2 rounded-[8px] text-blue-950 placeholder:text-gray-500"
                   />
                   <div className={styles.container_bottom}>
                     {comment.length > 0 && (
@@ -321,8 +325,11 @@ const Comments: React.FC<CommentProps> = ({
                         {maxLength - comment.length} {texts.characLeft}
                       </span>
                     )}
-                    <div className={styles.container_btns}>
-                      <button type="submit">
+                    <div className="flex gap-[8px] w-full">
+                      <button
+                        type="submit"
+                        className=" w-full bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300"
+                      >
                         {editingCommentId ? texts.btnEdit : texts.btnAdd}
                       </button>
                       {editingCommentId && (

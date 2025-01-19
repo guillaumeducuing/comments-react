@@ -274,14 +274,16 @@ var Comments = function (_a) {
             }
         });
     }); };
-    return (React.createElement("section", { className: "pt-[60px] pb-[60px] bg-slate-50 z-10 relative" },
+    return (React.createElement("section", { className: "pt-[60px] pb-[60px] bg-white z-10 relative" },
         React.createElement("div", { className: "container mx-auto" },
             React.createElement("div", { className: styles.container },
                 React.createElement("div", { className: "flex justify-between" },
-                    React.createElement("div", { className: "flex h-full sticky top-[120px]" }, user ? (React.createElement("form", { onSubmit: handleSubmit, className: editingCommentId ? styles.editing : "" },
+                    React.createElement("div", { className: "flex h-full sticky top-[120px] w-[500px]" }, user ? (React.createElement("form", { onSubmit: handleSubmit, className: editingCommentId
+                            ? styles.editing
+                            : "flex  flex-col w-full gap-4" },
                         React.createElement("div", { className: "flex items-center gap-[10px]" },
                             React.createElement("img", { src: user.photoURL || undefined, alt: user.displayName || undefined, className: "w-[40px] h-[40px] rounded-full" }),
-                            React.createElement("h3", { className: "text-l font-bold text-black" }, formatUsername(user.displayName)),
+                            React.createElement("h3", { className: "text-xl font-grotesk-variable text-black" }, formatUsername(user.displayName)),
                             user && (React.createElement("div", { className: styles.logout, onClick: handleLogout },
                                 React.createElement("svg", { className: "w-[20px] h-[20px] fill-none ", viewBox: "0 0 24 24" },
                                     React.createElement("path", { className: " stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round", d: "M21 12L13 12" }),
@@ -290,14 +292,14 @@ var Comments = function (_a) {
                         React.createElement("textarea", { value: comment, onChange: function (e) {
                                 setComment(e.target.value);
                                 setErrorMessage("");
-                            }, onFocus: function () { return setErrorMessage(""); }, maxLength: maxLength, placeholder: texts.placeholder, required: true, className: "h-[100px] font-medium resize-none outline-none p-[10px] border-gray-500 border-1 rounded-8 w-full" }),
+                            }, onFocus: function () { return setErrorMessage(""); }, maxLength: maxLength, placeholder: texts.placeholder, required: true, className: "h-[150px] font-inter-regular resize-none outline-none p-[10px] border-gray-500 border-2 rounded-[8px] text-blue-950 placeholder:text-gray-500" }),
                         React.createElement("div", { className: styles.container_bottom },
                             comment.length > 0 && (React.createElement("span", { className: styles.caracter },
                                 maxLength - comment.length,
                                 " ",
                                 texts.characLeft)),
-                            React.createElement("div", { className: styles.container_btns },
-                                React.createElement("button", { type: "submit" }, editingCommentId ? texts.btnEdit : texts.btnAdd),
+                            React.createElement("div", { className: "flex gap-[8px] w-full" },
+                                React.createElement("button", { type: "submit", className: " w-full bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300" }, editingCommentId ? texts.btnEdit : texts.btnAdd),
                                 editingCommentId && (React.createElement("button", { type: "button", onClick: handleCancelEdit }, texts.btnCancel))),
                             errorMessage && (React.createElement("span", { className: styles.error }, errorMessage))))) : (React.createElement("div", { className: "connexion flex flex-col gap-[40px]" },
                         React.createElement("div", { className: styles.title },
