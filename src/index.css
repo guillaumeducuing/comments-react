@@ -5,16 +5,16 @@
 @font-face {
   font-family: Inter-Bold;
   font-display: swap;
-  src: url(../src/assets/fonts/Inter/Inter-Bold.ttf);
+  src: url(./assets/fonts/Inter/Inter-Bold.ttf);
 }
 @font-face {
   font-family: Inter-Regular;
   font-display: swap;
-  src: url(../src/assets/fonts/Inter/Inter-Regular.ttf);
+  src: url(./assets/fonts/Inter/Inter-Regular.ttf);
 }
 @font-face {
   font-family: Grotesk-Variable;
-  src: url(../src/assets/fonts/Grotesk/Grotesk-Variable.ttf);
+  src: url(./assets/fonts/Grotesk/Grotesk-Variable.ttf);
   font-display: swap;
   font-weight: 500;
 }
