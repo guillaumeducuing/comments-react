@@ -1,4 +1,5 @@
 import React from "react";
+import { Firestore } from "firebase/firestore";
 import "../index.css";
 interface CommentProps {
     firebaseConfig: object;
@@ -19,6 +20,9 @@ interface CommentProps {
         dateThe?: string;
         dateEdit?: string;
     };
+    db: Firestore;
+    app: Firestore;
+    auth: any;
 }
 declare const Comments: React.FC<CommentProps>;
 export default Comments;
