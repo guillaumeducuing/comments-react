@@ -55,26 +55,26 @@ import moment from "moment";
 import "moment/locale/fr";
 import "../index.css";
 var Comments = function (_a) {
-    var firebaseConfig = _a.firebaseConfig, pageUid = _a.pageUid, _b = _a.lang, lang = _b === void 0 ? "fr-fr" : _b, _c = _a.texts, texts = _c === void 0 ? {
-        placeholder: "Votre commentaire",
-        btnAdd: "Ajouter",
-        btnEdit: "Modifier",
-        btnCancel: "Annuler",
-        errorCharac: "Veuillez ne pas dépasser 1000 caractères",
-        errorAdd: "Vous devez attendre qu'un autre utilisateur ajoute un commentaire",
-        errorUrlAndMail: "Veuillez ne pas ajouter d'URL ou d'adresse mail",
-        characLeft: "Caractères restants",
-        title: "Commentaires",
-        dateAt: "le",
-        dateThe: "le",
-        dateEdit: "Modifié le",
-        btnModalConfirm: "Confirmer",
-        titleModalDelete: "Supprimer le commentaire ?",
-        connexionTitle: "Connectez-vous pour ajouter un commentaire",
-        connexionButton: "Connexion",
-        btnLogin: "Connexion",
-        btnLogout: "Déconnexion"
-    } : _c, _d = _a.preventProfanity, preventProfanity = _d === void 0 ? true : _d, _e = _a.profanityLanguage, profanityLanguage = _e === void 0 ? "fr" : _e, _f = _a.preventMultiPosts, preventMultiPosts = _f === void 0 ? true : _f, _g = _a.maxChars, maxChars = _g === void 0 ? 1000 : _g;
+    var firebaseConfig = _a.firebaseConfig, pageUid = _a.pageUid, _b = _a.lang, lang = _b === void 0 ? "en" : _b, _c = _a.texts, texts = _c === void 0 ? {
+        placeholder: "Your comment",
+        btnAdd: "Add a comment",
+        btnEdit: "Edit",
+        btnCancel: "Cancel",
+        errorCharac: "Please do not exceed 1000 characters",
+        errorAdd: "You need to wait for another user to add a comment",
+        errorUrlAndMail: "Please do not include URLs or email addresses",
+        characLeft: "Characters left",
+        title: "Comments",
+        dateAt: "at",
+        dateThe: "on",
+        dateEdit: "Edited on",
+        btnModalConfirm: "Confirm",
+        titleModalDelete: "Delete this comment",
+        connexionTitle: "Log in to add a comment",
+        connexionButton: "Log in with Google",
+        btnLogin: "Log in with Google",
+        btnLogout: "Log out"
+    } : _c, _d = _a.preventProfanity, preventProfanity = _d === void 0 ? true : _d, _e = _a.profanityLanguage, profanityLanguage = _e === void 0 ? "en" : _e, _f = _a.preventMultiPosts, preventMultiPosts = _f === void 0 ? true : _f, _g = _a.maxChars, maxChars = _g === void 0 ? 1000 : _g;
     var app = initializeApp(firebaseConfig);
     var db = getFirestore(app);
     var auth = getAuth(app);
@@ -197,10 +197,10 @@ var Comments = function (_a) {
                 case 7:
                     error_1 = _a.sent();
                     if (error_1 instanceof Error) {
-                        console.error("Erreur lors de l'ajout ou modification du commentaire :", error_1.message);
+                        console.error("Error while adding or editing the comment:", error_1.message);
                     }
                     else {
-                        console.error("Erreur inconnue", error_1);
+                        console.error("Unknown error", error_1);
                     }
                     return [3 /*break*/, 8];
                 case 8: return [2 /*return*/];
@@ -233,7 +233,7 @@ var Comments = function (_a) {
                     return [3 /*break*/, 4];
                 case 3:
                     error_2 = _a.sent();
-                    console.error("Erreur lors de la suppression du commentaire :", error_2);
+                    console.error("Error while deleting the comment:", error_2);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -265,7 +265,7 @@ var Comments = function (_a) {
                 case 2:
                     error_3 = _a.sent();
                     if (error_3 instanceof Error) {
-                        console.error("Erreur lors de la connexion : ", error_3.message);
+                        console.error("Error while logging in:", error_3.message);
                     }
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
@@ -286,7 +286,7 @@ var Comments = function (_a) {
                 case 2:
                     error_4 = _a.sent();
                     if (error_4 instanceof Error) {
-                        console.error("Erreur lors de la déconnexion : ", error_4.message);
+                        console.error("Error while logging out:", error_4.message);
                     }
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
@@ -299,12 +299,12 @@ var Comments = function (_a) {
                 React.createElement("div", { className: "flex h-full sticky top-[120px] w-full lg:w-[500px]" }, user ? (React.createElement("form", { onSubmit: handleSubmit, className: "flex flex-col w-full gap-4 mt-5 lg:mt-0" },
                     React.createElement("div", { className: "flex items-center gap-[10px]" },
                         React.createElement("img", { src: user.photoURL || undefined, alt: user.displayName || undefined, className: "w-[40px] h-[40px] rounded-full" }),
-                        React.createElement("h3", { className: "text-xl font-grotesk-variable   text-slate-900 " }, formatUsername(user.displayName)),
+                        React.createElement("h3", { className: "text-xl font-grotesk-variable text-slate-900 " }, formatUsername(user.displayName)),
                         user && (React.createElement("div", { className: "cursor-pointer", onClick: handleLogout },
-                            React.createElement("svg", { className: "w-[20px] h-[20px] fill-none ", viewBox: "0 0 24 24" },
-                                React.createElement("path", { className: " stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round", d: "M21 12L13 12" }),
-                                React.createElement("path", { className: " stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round", d: "M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9" }),
-                                React.createElement("path", { className: " stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round", d: "M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" }))))),
+                            React.createElement("svg", { className: "w-[20px] h-[20px] fill-none", viewBox: "0 0 24 24" },
+                                React.createElement("path", { className: "stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round", d: "M21 12L13 12" }),
+                                React.createElement("path", { className: "stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round", d: "M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9" }),
+                                React.createElement("path", { className: "stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round", d: "M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19" }))))),
                     React.createElement("textarea", { value: comment, onChange: function (e) {
                             setComment(e.target.value);
                             setErrorMessage("");

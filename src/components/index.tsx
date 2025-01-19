@@ -71,30 +71,29 @@ type ProfanityLanguage = "fr" | "en" | "ru";
 const Comments: React.FC<CommentProps> = ({
   firebaseConfig,
   pageUid,
-  lang = "fr-fr",
+  lang = "en",
   texts = {
-    placeholder: "Votre commentaire",
-    btnAdd: "Ajouter",
-    btnEdit: "Modifier",
-    btnCancel: "Annuler",
-    errorCharac: "Veuillez ne pas dépasser 1000 caractères",
-    errorAdd:
-      "Vous devez attendre qu'un autre utilisateur ajoute un commentaire",
-    errorUrlAndMail: "Veuillez ne pas ajouter d'URL ou d'adresse mail",
-    characLeft: "Caractères restants",
-    title: "Commentaires",
-    dateAt: "le",
-    dateThe: "le",
-    dateEdit: "Modifié le",
-    btnModalConfirm: "Confirmer",
-    titleModalDelete: "Supprimer le commentaire ?",
-    connexionTitle: "Connectez-vous pour ajouter un commentaire",
-    connexionButton: "Connexion",
-    btnLogin: "Connexion",
-    btnLogout: "Déconnexion"
+    placeholder: "Your comment",
+    btnAdd: "Add a comment",
+    btnEdit: "Edit",
+    btnCancel: "Cancel",
+    errorCharac: "Please do not exceed 1000 characters",
+    errorAdd: "You need to wait for another user to add a comment",
+    errorUrlAndMail: "Please do not include URLs or email addresses",
+    characLeft: "Characters left",
+    title: "Comments",
+    dateAt: "at",
+    dateThe: "on",
+    dateEdit: "Edited on",
+    btnModalConfirm: "Confirm",
+    titleModalDelete: "Delete this comment",
+    connexionTitle: "Log in to add a comment",
+    connexionButton: "Log in with Google",
+    btnLogin: "Log in with Google",
+    btnLogout: "Log out"
   } as any,
   preventProfanity = true,
-  profanityLanguage = "fr",
+  profanityLanguage = "en",
   preventMultiPosts = true,
   maxChars = 1000
 }) => {
@@ -226,11 +225,11 @@ const Comments: React.FC<CommentProps> = ({
       } catch (error: unknown) {
         if (error instanceof Error) {
           console.error(
-            "Erreur lors de l'ajout ou modification du commentaire :",
+            "Error while adding or editing the comment:",
             error.message
           );
         } else {
-          console.error("Erreur inconnue", error);
+          console.error("Unknown error", error);
         }
       }
     }
@@ -252,7 +251,7 @@ const Comments: React.FC<CommentProps> = ({
       );
       setCommentToDelete(null);
     } catch (error) {
-      console.error("Erreur lors de la suppression du commentaire :", error);
+      console.error("Error while deleting the comment:", error);
     }
   };
 
@@ -277,7 +276,7 @@ const Comments: React.FC<CommentProps> = ({
       setUser(result.user);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error("Erreur lors de la connexion : ", error.message);
+        console.error("Error while logging in:", error.message);
       }
     }
   };
@@ -288,7 +287,7 @@ const Comments: React.FC<CommentProps> = ({
       setUser(null);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.error("Erreur lors de la déconnexion : ", error.message);
+        console.error("Error while logging out:", error.message);
       }
     }
   };
@@ -309,25 +308,25 @@ const Comments: React.FC<CommentProps> = ({
                     alt={user.displayName || undefined}
                     className="w-[40px] h-[40px] rounded-full"
                   />
-                  <h3 className="text-xl font-grotesk-variable   text-slate-900 ">
+                  <h3 className="text-xl font-grotesk-variable text-slate-900 ">
                     {formatUsername(user.displayName)}
                   </h3>
                   {user && (
                     <div className="cursor-pointer" onClick={handleLogout}>
                       <svg
-                        className="w-[20px] h-[20px] fill-none "
+                        className="w-[20px] h-[20px] fill-none"
                         viewBox="0 0 24 24"
                       >
                         <path
-                          className=" stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
+                          className="stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
                           d="M21 12L13 12"
                         />
                         <path
-                          className=" stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
+                          className="stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
                           d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
                         />
                         <path
-                          className=" stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
+                          className="stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
                           d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
                         />
                       </svg>
