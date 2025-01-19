@@ -1,10 +1,10 @@
-# Comments Module (using Firebase)
+# Comments-React Module (using Firebase)
 
 ![Comments module](https://images.prismic.io/lecodeurnormandv2/Z41zdJbqstJ99nY1_Captured%E2%80%99e%CC%81cran2025-01-19a%CC%8022.49.20.png?auto=format,compress "Comments module")
 ![Comments module](https://images.prismic.io/lecodeurnormandv2/Z41wNZbqstJ99nYp_Captured%E2%80%99e%CC%81cran2025-01-19a%CC%8022.35.25.png?auto=format,compress "Comments module")
 
 Effortlessly add a robust comment system to your blog or application! 🚀  
-The **Comments Module** is a lightweight, feature-packed library built with modern tools like **React**, **TypeScript**, and **Tailwind CSS**.  
+The **Comments-React Module** is a lightweight, feature-packed library built with modern tools like **React**, **TypeScript**, and **Tailwind CSS**.  
 Designed for flexibility and ease of use, it offers a seamless way to manage comments while maintaining control over customization and moderation.
 
 ---
@@ -30,7 +30,7 @@ Designed for flexibility and ease of use, it offers a seamless way to manage com
 Install the package via npm or yarn:
 
 ```bash
-npm install comments
+npm install comments-react
 ```
 
 ## Firebase config
