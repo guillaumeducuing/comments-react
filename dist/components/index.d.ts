@@ -20,6 +20,8 @@ interface CommentProps {
         dateThe?: string;
         dateEdit?: string;
     };
+    preventProfanity?: boolean;
+    maxChars?: number;
     db: Firestore;
     app: Firestore;
     auth: any;

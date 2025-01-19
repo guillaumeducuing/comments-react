@@ -60,38 +60,38 @@ var Comments = function (_a) {
         btnEdit: "Modifier",
         btnCancel: "Annuler",
         errorCharac: "Veuillez ne pas dépasser 1000 caractères",
-        errorAdd: "Vous ne pouvez pas ajouter un commentaire en double",
+        errorAdd: "Vous devez attendre qu'un autre utilisateur ajoute un commentaire",
         errorUrlAndMail: "Veuillez ne pas ajouter d'URL ou d'adresse mail",
         characLeft: "Caractères restants",
         title: "Commentaires",
         dateAt: "le",
         dateThe: "le",
-        dateEdit: "le",
+        dateEdit: "Modifié le",
         btnModalConfirm: "Confirmer",
         titleModalDelete: "Supprimer le commentaire ?",
         connexionTitle: "Connectez-vous pour ajouter un commentaire",
         connexionButton: "Connexion",
         btnLogin: "Connexion",
         btnLogout: "Déconnexion"
-    } : _d;
+    } : _d, _e = _a.preventProfanity, preventProfanity = _e === void 0 ? true : _e, _f = _a.maxChars, maxChars = _f === void 0 ? 1000 : _f;
     var app = initializeApp(firebaseConfig);
     var db = getFirestore(app);
     var auth = getAuth(app);
     var provider = new GoogleAuthProvider();
-    var _e = useState(""), comment = _e[0], setComment = _e[1];
-    var _f = useState([]), comments = _f[0], setComments = _f[1];
-    var _g = useState(null), editingCommentId = _g[0], setEditingCommentId = _g[1];
-    var _h = useState(null), user = _h[0], setUser = _h[1];
-    var _j = useState(null), errorMessage = _j[0], setErrorMessage = _j[1];
-    var _k = useState(false), isModalOpen = _k[0], setIsModalOpen = _k[1];
-    var maxLength = 1000;
+    var _g = useState(""), comment = _g[0], setComment = _g[1];
+    var _h = useState([]), comments = _h[0], setComments = _h[1];
+    var _j = useState(null), editingCommentId = _j[0], setEditingCommentId = _j[1];
+    var _k = useState(null), commentToDelete = _k[0], setCommentToDelete = _k[1];
+    var _l = useState(null), user = _l[0], setUser = _l[1];
+    var _m = useState(null), errorMessage = _m[0], setErrorMessage = _m[1];
+    var maxLength = maxChars;
     var formatUsername = function (fullName) {
         var names = fullName.split(" ");
         var firstName = names[0];
         var lastName = names[names.length - 1];
         return "".concat(firstName, " ").concat(lastName.charAt(0), ".");
     };
-    leoProfanity.loadDictionary("fr");
+    preventProfanity && leoProfanity.loadDictionary("fr");
     useEffect(function () {
         var q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
         var unsubscribe = onSnapshot(q, function (snapshot) {
@@ -129,7 +129,9 @@ var Comments = function (_a) {
                         setErrorMessage(texts.errorUrlAndMail);
                         return [2 /*return*/];
                     }
-                    cleanedComment = leoProfanity.clean(comment);
+                    cleanedComment = preventProfanity
+                        ? leoProfanity.clean(comment)
+                        : comment;
                     if (!(user.displayName && pageUid)) return [3 /*break*/, 8];
                     _a.label = 1;
                 case 1:
@@ -192,28 +194,29 @@ var Comments = function (_a) {
             }
         });
     }); };
-    var handleModalDeleteComment = function () {
-        setIsModalOpen(true);
+    var handleModalDeleteComment = function (commentId) {
+        setCommentToDelete(commentId);
         handleCancelEdit();
         setErrorMessage("");
     };
-    var handleDeleteComment = function (comment) { return __awaiter(void 0, void 0, void 0, function () {
+    var handleDeleteComment = function () { return __awaiter(void 0, void 0, void 0, function () {
         var commentRef, error_2;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    if (!(user && user.uid === comment.userId)) return [3 /*break*/, 4];
-                    isModalOpen && setIsModalOpen(false);
+                    if (!commentToDelete)
+                        return [2 /*return*/];
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    commentRef = doc(db, "comments", comment.id);
+                    commentRef = doc(db, "comments", commentToDelete);
                     return [4 /*yield*/, deleteDoc(commentRef)];
                 case 2:
                     _a.sent();
                     setComments(function (prevComments) {
-                        return prevComments.filter(function (c) { return c.id !== comment.id; });
+                        return prevComments.filter(function (c) { return c.id !== commentToDelete; });
                     });
+                    setCommentToDelete(null);
                     return [3 /*break*/, 4];
                 case 3:
                     error_2 = _a.sent();
@@ -223,6 +226,9 @@ var Comments = function (_a) {
             }
         });
     }); };
+    var closeModal = function () {
+        setCommentToDelete(null);
+    };
     var handleEditComment = function (comment) {
         setEditingCommentId(comment.id);
         setComment(comment.comment);
@@ -278,9 +284,7 @@ var Comments = function (_a) {
         React.createElement("div", { className: "container mx-auto" },
             React.createElement("div", { className: styles.container },
                 React.createElement("div", { className: "flex justify-between" },
-                    React.createElement("div", { className: "flex h-full sticky top-[120px] w-[500px]" }, user ? (React.createElement("form", { onSubmit: handleSubmit, className: editingCommentId
-                            ? styles.editing
-                            : "flex  flex-col w-full gap-4" },
+                    React.createElement("div", { className: "flex h-full sticky top-[120px] w-[500px]" }, user ? (React.createElement("form", { onSubmit: handleSubmit, className: "flex flex-col w-full gap-4" },
                         React.createElement("div", { className: "flex items-center gap-[10px]" },
                             React.createElement("img", { src: user.photoURL || undefined, alt: user.displayName || undefined, className: "w-[40px] h-[40px] rounded-full" }),
                             React.createElement("h3", { className: "text-xl font-grotesk-variable text-black" }, formatUsername(user.displayName)),
@@ -293,15 +297,15 @@ var Comments = function (_a) {
                                 setComment(e.target.value);
                                 setErrorMessage("");
                             }, onFocus: function () { return setErrorMessage(""); }, maxLength: maxLength, placeholder: texts.placeholder, required: true, className: "h-[150px] font-inter-regular resize-none outline-none p-[10px] border-gray-500 border-2 rounded-[8px] text-blue-950 placeholder:text-gray-500" }),
-                        React.createElement("div", { className: styles.container_bottom },
-                            comment.length > 0 && (React.createElement("span", { className: styles.caracter },
+                        React.createElement("div", { className: "flex flex-col gap-[8px] w-full" },
+                            comment.length > 0 && (React.createElement("span", { className: "font-inter-regular text-sm text-gray-500 text-right" },
                                 maxLength - comment.length,
                                 " ",
                                 texts.characLeft)),
                             React.createElement("div", { className: "flex gap-[8px] w-full" },
-                                React.createElement("button", { type: "submit", className: " w-full bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300" }, editingCommentId ? texts.btnEdit : texts.btnAdd),
-                                editingCommentId && (React.createElement("button", { type: "button", onClick: handleCancelEdit }, texts.btnCancel))),
-                            errorMessage && (React.createElement("span", { className: styles.error }, errorMessage))))) : (React.createElement("div", { className: "connexion flex flex-col gap-[40px]" },
+                                React.createElement("button", { type: "submit", className: "w-full bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300" }, editingCommentId ? texts.btnEdit : texts.btnAdd),
+                                editingCommentId && (React.createElement("button", { type: "button", onClick: handleCancelEdit, className: "w-full bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300" }, texts.btnCancel))),
+                            errorMessage && (React.createElement("span", { className: "font-inter-regular text-red-400" }, errorMessage))))) : (React.createElement("div", { className: "connexion flex flex-col gap-[40px]" },
                         React.createElement("div", { className: styles.title },
                             React.createElement("h4", { className: "text-xl font-bold text-black" }, texts.connexionTitle)),
                         React.createElement("div", { className: "flex items-center justify-center gap-[20px] border border-gray-500 rounded-[10px] p-[20px] bg-gray-50 hover:cursor-pointer hover:bg-gray-100 ease-in-out duration-300", onClick: handleLogin },
@@ -314,14 +318,14 @@ var Comments = function (_a) {
                     React.createElement("div", { className: "flex flex-col gap-[20px]" }, comments
                         .slice()
                         .reverse()
-                        .map(function (comment) { return (React.createElement("div", { className: "relative flex flex-col border border-gray-300 rounded-10 bg-gray-50 p-[15px]hover:cursor-pointer hover:bg-gray-100 p-[20px] w-[500px] gap-[10px]", key: comment.id },
+                        .map(function (comment) { return (React.createElement("div", { className: "relative flex flex-col border border-gray-300 rounded-[8px] bg-gray-50 p-[15px] w-[500px] gap-[10px] shadow-md ease-in-out duration-300", key: comment.id },
                         React.createElement("div", { className: styles.container_top },
                             React.createElement("div", { className: "flex items-center gap-[10px]" },
                                 React.createElement("img", { src: comment.userImage, alt: comment.username, className: "w-[40px] h-[40px] rounded-full" }),
-                                React.createElement("h3", { className: "text-l font-bold text-black" }, formatUsername(comment.username)),
-                                React.createElement("div", { className: "flex items-center gap-[10px]" },
+                                React.createElement("h3", { className: " font-grotesk-variable text-l  text-black" }, formatUsername(comment.username)),
+                                React.createElement("div", { className: "flex flex-col items-start" },
                                     React.createElement("div", { className: styles.created },
-                                        React.createElement("span", { className: "text-sm text-black" }, texts.dateThe +
+                                        React.createElement("span", { className: "font-inter-regular text-xsm text-black" }, texts.dateThe +
                                             " " +
                                             moment(comment.createdAt)
                                                 .locale(lang)
@@ -332,8 +336,8 @@ var Comments = function (_a) {
                                             moment(comment.createdAt)
                                                 .locale(lang)
                                                 .format("LT"))),
-                                    comment.updatedAt && (React.createElement("div", { className: styles.modified },
-                                        React.createElement("span", { className: "text-sm text-black" }, texts.dateEdit +
+                                    comment.updatedAt && (React.createElement("div", { className: "-mt-[5px]" },
+                                        React.createElement("span", { className: "font-inter-regular text-xsm text-black" }, texts.dateEdit +
                                             " " +
                                             moment(comment.updatedAt)
                                                 .locale(lang)
@@ -344,21 +348,21 @@ var Comments = function (_a) {
                                             moment(comment.updatedAt)
                                                 .locale(lang)
                                                 .format("LT")))))),
-                            user && user.uid === comment.userId && (React.createElement("div", { className: styles.container_btn },
+                            user && user.uid === comment.userId && (React.createElement("div", { className: "absolute top-8 right-8 flex gap-2" },
                                 React.createElement("button", { onClick: function () { return handleEditComment(comment); } },
-                                    React.createElement("svg", { className: styles.edit, viewBox: "0 0 24 24" },
-                                        React.createElement("path", { d: "M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" }),
-                                        React.createElement("path", { d: "M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" }))),
-                                React.createElement("button", { onClick: function () { return handleModalDeleteComment(); } },
+                                    React.createElement("svg", { className: "w-[15px] h-[15px] fill-none ", viewBox: "0 0 24 24" },
+                                        React.createElement("path", { className: "stroke-black stroke-2", d: "M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" }),
+                                        React.createElement("path", { className: "stroke-black stroke-2", d: "M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" }))),
+                                React.createElement("button", { onClick: function () { return handleModalDeleteComment(comment.id); } },
                                     React.createElement("svg", { className: "w-[15px] h-[15px] fill-none ", viewBox: "0 0 24 24" },
                                         React.createElement("path", { className: "fill-black", d: "M10.0303 8.96965C9.73741 8.67676 9.26253 8.67676 8.96964 8.96965C8.67675 9.26255 8.67675 9.73742 8.96964 10.0303L10.9393 12L8.96966 13.9697C8.67677 14.2625 8.67677 14.7374 8.96966 15.0303C9.26255 15.3232 9.73743 15.3232 10.0303 15.0303L12 13.0607L13.9696 15.0303C14.2625 15.3232 14.7374 15.3232 15.0303 15.0303C15.3232 14.7374 15.3232 14.2625 15.0303 13.9696L13.0606 12L15.0303 10.0303C15.3232 9.73744 15.3232 9.26257 15.0303 8.96968C14.7374 8.67678 14.2625 8.67678 13.9696 8.96968L12 10.9393L10.0303 8.96965Z" }),
                                         React.createElement("path", { className: "fill-black", fillRule: "evenodd", clipRule: "evenodd", d: "M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z" })))))),
-                        React.createElement("p", { className: "text-sm text-black" }, comment.comment),
-                        isModalOpen && (React.createElement("div", { className: styles.modal_delete },
-                            React.createElement("div", { className: styles.container_modal },
-                                React.createElement("h4", null, texts.titleModalDelete),
-                                React.createElement("div", { className: styles.container_btns },
-                                    React.createElement("button", { type: "button", onClick: function () { return handleDeleteComment(comment); } }, texts.btnModalConfirm),
-                                    React.createElement("button", { type: "button", onClick: function () { return setIsModalOpen(false); } }, texts.btnCancel))))))); })))))));
+                        React.createElement("p", { className: " font-grotesk-variable text-md text-black" }, comment.comment),
+                        commentToDelete === comment.id && (React.createElement("div", { className: "absolute top-0 left-0 w-full h-full bg-white bg-opacity-20 backdrop-blur-sm rounded-[8px] z-10" },
+                            React.createElement("div", { className: "flex flex-col gap-[20px] w-full h-full justify-center items-center " },
+                                React.createElement("h4", { className: "font-grotesk-variable text-l text-blue-950" }, texts.titleModalDelete),
+                                React.createElement("div", { className: "flex gap-[8px] w-full justify-center" },
+                                    React.createElement("button", { type: "button", onClick: function () { return handleDeleteComment(); }, className: "w-fit bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300" }, texts.btnModalConfirm),
+                                    React.createElement("button", { type: "button", onClick: function () { return closeModal(); }, className: "w-fit bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300" }, texts.btnCancel))))))); })))))));
 };
 export default Comments;

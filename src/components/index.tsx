@@ -44,6 +44,8 @@ interface CommentProps {
     dateThe?: string;
     dateEdit?: string;
   };
+  preventProfanity?: boolean;
+  maxChars?: number;
   db: Firestore;
   app: Firestore;
   auth: any;
@@ -70,20 +72,23 @@ const Comments: React.FC<CommentProps> = ({
     btnEdit: "Modifier",
     btnCancel: "Annuler",
     errorCharac: "Veuillez ne pas dépasser 1000 caractères",
-    errorAdd: "Vous ne pouvez pas ajouter un commentaire en double",
+    errorAdd:
+      "Vous devez attendre qu'un autre utilisateur ajoute un commentaire",
     errorUrlAndMail: "Veuillez ne pas ajouter d'URL ou d'adresse mail",
     characLeft: "Caractères restants",
     title: "Commentaires",
     dateAt: "le",
     dateThe: "le",
-    dateEdit: "le",
+    dateEdit: "Modifié le",
     btnModalConfirm: "Confirmer",
     titleModalDelete: "Supprimer le commentaire ?",
     connexionTitle: "Connectez-vous pour ajouter un commentaire",
     connexionButton: "Connexion",
     btnLogin: "Connexion",
     btnLogout: "Déconnexion"
-  } as any
+  } as any,
+  preventProfanity = true,
+  maxChars = 1000
 }) => {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
@@ -93,10 +98,10 @@ const Comments: React.FC<CommentProps> = ({
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<CommentType[]>([]);
   const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
+  const [commentToDelete, setCommentToDelete] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [errorMessage, setErrorMessage] = useState<Object | any>(null);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const maxLength = 1000;
+  const maxLength = maxChars;
 
   const formatUsername = (fullName: any) => {
     const names = fullName.split(" ");
@@ -104,7 +109,7 @@ const Comments: React.FC<CommentProps> = ({
     const lastName = names[names.length - 1];
     return `${firstName} ${lastName.charAt(0)}.`;
   };
-  leoProfanity.loadDictionary("fr");
+  preventProfanity && leoProfanity.loadDictionary("fr");
 
   useEffect(() => {
     const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
@@ -148,7 +153,9 @@ const Comments: React.FC<CommentProps> = ({
       setErrorMessage(texts.errorUrlAndMail);
       return;
     }
-    const cleanedComment = leoProfanity.clean(comment);
+    const cleanedComment = preventProfanity
+      ? leoProfanity.clean(comment)
+      : comment;
 
     if (user.displayName && pageUid) {
       try {
@@ -207,25 +214,28 @@ const Comments: React.FC<CommentProps> = ({
     }
   };
 
-  const handleModalDeleteComment = () => {
-    setIsModalOpen(true);
+  const handleModalDeleteComment = (commentId: string) => {
+    setCommentToDelete(commentId);
     handleCancelEdit();
     setErrorMessage("");
   };
 
-  const handleDeleteComment = async (comment: CommentType) => {
-    if (user && user.uid === comment.userId) {
-      isModalOpen && setIsModalOpen(false);
-      try {
-        const commentRef = doc(db, "comments", comment.id);
-        await deleteDoc(commentRef);
-        setComments(prevComments =>
-          prevComments.filter(c => c.id !== comment.id)
-        );
-      } catch (error) {
-        console.error("Erreur lors de la suppression du commentaire :", error);
-      }
+  const handleDeleteComment = async () => {
+    if (!commentToDelete) return;
+    try {
+      const commentRef = doc(db, "comments", commentToDelete);
+      await deleteDoc(commentRef);
+      setComments(prevComments =>
+        prevComments.filter(c => c.id !== commentToDelete)
+      );
+      setCommentToDelete(null);
+    } catch (error) {
+      console.error("Erreur lors de la suppression du commentaire :", error);
     }
+  };
+
+  const closeModal = () => {
+    setCommentToDelete(null);
   };
 
   const handleEditComment = (comment: CommentType) => {
@@ -270,11 +280,7 @@ const Comments: React.FC<CommentProps> = ({
               {user ? (
                 <form
                   onSubmit={handleSubmit}
-                  className={
-                    editingCommentId
-                      ? styles.editing
-                      : "flex  flex-col w-full gap-4"
-                  }
+                  className="flex flex-col w-full gap-4"
                 >
                   <div className="flex items-center gap-[10px]">
                     <img
@@ -319,27 +325,33 @@ const Comments: React.FC<CommentProps> = ({
                     required
                     className="h-[150px] font-inter-regular resize-none outline-none p-[10px] border-gray-500 border-2 rounded-[8px] text-blue-950 placeholder:text-gray-500"
                   />
-                  <div className={styles.container_bottom}>
+                  <div className="flex flex-col gap-[8px] w-full">
                     {comment.length > 0 && (
-                      <span className={styles.caracter}>
+                      <span className="font-inter-regular text-sm text-gray-500 text-right">
                         {maxLength - comment.length} {texts.characLeft}
                       </span>
                     )}
                     <div className="flex gap-[8px] w-full">
                       <button
                         type="submit"
-                        className=" w-full bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300"
+                        className="w-full bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300"
                       >
                         {editingCommentId ? texts.btnEdit : texts.btnAdd}
                       </button>
                       {editingCommentId && (
-                        <button type="button" onClick={handleCancelEdit}>
+                        <button
+                          type="button"
+                          onClick={handleCancelEdit}
+                          className="w-full bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300"
+                        >
                           {texts.btnCancel}
                         </button>
                       )}
                     </div>
                     {errorMessage && (
-                      <span className={styles.error}>{errorMessage}</span>
+                      <span className="font-inter-regular text-red-400">
+                        {errorMessage}
+                      </span>
                     )}
                   </div>
                 </form>
@@ -390,7 +402,7 @@ const Comments: React.FC<CommentProps> = ({
                 .reverse()
                 .map(comment => (
                   <div
-                    className="relative flex flex-col border border-gray-300 rounded-10 bg-gray-50 p-[15px]hover:cursor-pointer hover:bg-gray-100 p-[20px] w-[500px] gap-[10px]"
+                    className="relative flex flex-col border border-gray-300 rounded-[8px] bg-gray-50 p-[15px] w-[500px] gap-[10px] shadow-md ease-in-out duration-300"
                     key={comment.id}
                   >
                     <div className={styles.container_top}>
@@ -400,12 +412,12 @@ const Comments: React.FC<CommentProps> = ({
                           alt={comment.username}
                           className="w-[40px] h-[40px] rounded-full"
                         />
-                        <h3 className="text-l font-bold text-black">
+                        <h3 className=" font-grotesk-variable text-l  text-black">
                           {formatUsername(comment.username)}
                         </h3>
-                        <div className="flex items-center gap-[10px]">
+                        <div className="flex flex-col items-start">
                           <div className={styles.created}>
-                            <span className="text-sm text-black">
+                            <span className="font-inter-regular text-xsm text-black">
                               {texts.dateThe +
                                 " " +
                                 moment(comment.createdAt)
@@ -420,8 +432,8 @@ const Comments: React.FC<CommentProps> = ({
                             </span>
                           </div>
                           {comment.updatedAt && (
-                            <div className={styles.modified}>
-                              <span className="text-sm text-black">
+                            <div className="-mt-[5px]">
+                              <span className="font-inter-regular text-xsm text-black">
                                 {texts.dateEdit +
                                   " " +
                                   moment(comment.updatedAt)
@@ -439,14 +451,25 @@ const Comments: React.FC<CommentProps> = ({
                         </div>
                       </div>
                       {user && user.uid === comment.userId && (
-                        <div className={styles.container_btn}>
+                        <div className="absolute top-8 right-8 flex gap-2">
                           <button onClick={() => handleEditComment(comment)}>
-                            <svg className={styles.edit} viewBox="0 0 24 24">
-                              <path d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" />
-                              <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" />
+                            <svg
+                              className="w-[15px] h-[15px] fill-none "
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                className="stroke-black stroke-2"
+                                d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
+                              />
+                              <path
+                                className="stroke-black stroke-2"
+                                d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
+                              />
                             </svg>
                           </button>
-                          <button onClick={() => handleModalDeleteComment()}>
+                          <button
+                            onClick={() => handleModalDeleteComment(comment.id)}
+                          >
                             <svg
                               className="w-[15px] h-[15px] fill-none "
                               viewBox="0 0 24 24"
@@ -466,21 +489,27 @@ const Comments: React.FC<CommentProps> = ({
                         </div>
                       )}
                     </div>
-                    <p className="text-sm text-black">{comment.comment}</p>
-                    {isModalOpen && (
-                      <div className={styles.modal_delete}>
-                        <div className={styles.container_modal}>
-                          <h4>{texts.titleModalDelete}</h4>
-                          <div className={styles.container_btns}>
+                    <p className=" font-grotesk-variable text-md text-black">
+                      {comment.comment}
+                    </p>
+                    {commentToDelete === comment.id && (
+                      <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-20 backdrop-blur-sm rounded-[8px] z-10">
+                        <div className="flex flex-col gap-[20px] w-full h-full justify-center items-center ">
+                          <h4 className="font-grotesk-variable text-l text-blue-950">
+                            {texts.titleModalDelete}
+                          </h4>
+                          <div className="flex gap-[8px] w-full justify-center">
                             <button
                               type="button"
-                              onClick={() => handleDeleteComment(comment)}
+                              onClick={() => handleDeleteComment()}
+                              className="w-fit bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300"
                             >
                               {texts.btnModalConfirm}
                             </button>
                             <button
                               type="button"
-                              onClick={() => setIsModalOpen(false)}
+                              onClick={() => closeModal()}
+                              className="w-fit bg-blue-950 text-white px-[10px] py-[8px] rounded-[4px] font-grotesk-variable hover:bg-blue-900 ease-in-out duration-300"
                             >
                               {texts.btnCancel}
                             </button>
