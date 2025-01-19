@@ -346,9 +346,9 @@ const Comments: React.FC<CommentProps> = ({
                   required
                   className="h-[120px] font-inter-regular resize-none outline-none p-[10px] border-gray-500 border-[1px] rounded-[8px] text-slate-900 placeholder:text-gray-500"
                 />
-                <div className="flex flex-col gap-[8px] w-full">
+                <div className="flex flex-col gap-[8px] w-full ">
                   {comment.length > 0 && (
-                    <span className="font-inter-regular text-sm text-gray-500 text-right">
+                    <span className="font-inter-regular text-xsm text-gray-500 text-right -mt-2">
                       {maxLength - comment.length} {texts.characLeft}
                     </span>
                   )}

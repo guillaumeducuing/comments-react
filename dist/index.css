@@ -568,6 +568,12 @@ video {
 .mt-8 {
   margin-top: 2rem;
 }
+.-mt-2 {
+  margin-top: -0.5rem;
+}
+.-mt-3 {
+  margin-top: -0.75rem;
+}
 .flex {
   display: flex;
 }
