@@ -1,6 +1,6 @@
 {
   "name": "comments-react",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A React component to add comments with Firebase support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"postcss src/index.css -o dist/index.css --watch\"",
-    "build": "tsc && postcss src/index.css -o dist/index.css",
+    "build": "tsc && postcss src/index.css -o dist/index.css && cp -r ./src/assets ./dist",
     "prepublishOnly": "npm run build"
   },
   "repository": {

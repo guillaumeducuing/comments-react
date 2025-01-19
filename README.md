@@ -54,7 +54,7 @@ const firebaseConfig = {
 ```jsx
 "use client";
 
-import { Comments } from "comments";
+import { Comments } from "comments-react";
 
 const Comment = ({ pageUid, lang }: { pageUid: string, lang: string }) => {
   const firebaseConfig = {
