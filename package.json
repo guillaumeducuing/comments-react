@@ -12,6 +12,11 @@
     "build": "tsc && postcss src/index.css -o dist/index.css",
     "prepublishOnly": "npm run build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guillaumeducuing/comments-react.git"
+  },
+  "homepage": "https://github.com/guillaumeducuing/comments-react#readme",
   "keywords": [
     "react",
     "comments",
