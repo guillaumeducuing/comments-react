@@ -21,6 +21,7 @@ interface CommentProps {
         dateEdit?: string;
     };
     preventProfanity?: boolean;
+    preventMultiPosts?: boolean;
     maxChars?: number;
     db: Firestore;
     app: Firestore;

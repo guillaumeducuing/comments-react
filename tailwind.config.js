@@ -9,7 +9,7 @@ module.exports = {
         "grotesk-variable": ["Grotesk-Variable"]
       },
       fontSize: {
-        xsm: "0.75rem"
+        xsm: "0.70rem"
       }
     }
   },
