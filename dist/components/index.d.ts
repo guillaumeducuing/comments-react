@@ -1,5 +1,5 @@
 import React from "react";
-import { Firestore } from "firebase/firestore";
+import "moment/locale/fr";
 import "../index.css";
 interface CommentProps {
     firebaseConfig: object;
@@ -19,13 +19,17 @@ interface CommentProps {
         dateAt?: string;
         dateThe?: string;
         dateEdit?: string;
+        btnModalConfirm?: string;
+        titleModalDelete?: string;
+        connexionTitle?: string;
+        connexionButton?: string;
+        btnLogin?: string;
+        btnLogout?: string;
     };
     preventProfanity?: boolean;
+    profanityLanguage?: string;
     preventMultiPosts?: boolean;
     maxChars?: number;
-    db: Firestore;
-    app: Firestore;
-    auth: any;
 }
 declare const Comments: React.FC<CommentProps>;
 export default Comments;

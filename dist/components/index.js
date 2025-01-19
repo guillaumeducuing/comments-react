@@ -52,9 +52,10 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import leoProfanity from "leo-profanity";
 import moment from "moment";
+import "moment/locale/fr";
 import "../index.css";
 var Comments = function (_a) {
-    var firebaseConfig = _a.firebaseConfig, pageUid = _a.pageUid, _b = _a.styles, styles = _b === void 0 ? {} : _b, _c = _a.lang, lang = _c === void 0 ? "fr-fr" : _c, _d = _a.texts, texts = _d === void 0 ? {
+    var firebaseConfig = _a.firebaseConfig, pageUid = _a.pageUid, _b = _a.lang, lang = _b === void 0 ? "fr-fr" : _b, _c = _a.texts, texts = _c === void 0 ? {
         placeholder: "Votre commentaire",
         btnAdd: "Ajouter",
         btnEdit: "Modifier",
@@ -73,7 +74,7 @@ var Comments = function (_a) {
         connexionButton: "Connexion",
         btnLogin: "Connexion",
         btnLogout: "Déconnexion"
-    } : _d, _e = _a.preventProfanity, preventProfanity = _e === void 0 ? true : _e, _f = _a.preventMultiPosts, preventMultiPosts = _f === void 0 ? true : _f, _g = _a.maxChars, maxChars = _g === void 0 ? 1000 : _g;
+    } : _c, _d = _a.preventProfanity, preventProfanity = _d === void 0 ? true : _d, _e = _a.profanityLanguage, profanityLanguage = _e === void 0 ? "fr" : _e, _f = _a.preventMultiPosts, preventMultiPosts = _f === void 0 ? true : _f, _g = _a.maxChars, maxChars = _g === void 0 ? 1000 : _g;
     var app = initializeApp(firebaseConfig);
     var db = getFirestore(app);
     var auth = getAuth(app);
@@ -91,7 +92,18 @@ var Comments = function (_a) {
         var lastName = names[names.length - 1];
         return "".concat(firstName, " ").concat(lastName.charAt(0), ".");
     };
-    preventProfanity && leoProfanity.loadDictionary("fr");
+    // preventProfanity
+    useEffect(function () {
+        var validLanguages = ["fr", "en", "ru"];
+        if (preventProfanity &&
+            validLanguages.includes(profanityLanguage)) {
+            leoProfanity.loadDictionary(profanityLanguage);
+        }
+        else {
+            console.warn("Language '".concat(profanityLanguage, "' is not supported by leo-profanity. Defaulting to 'fr'."));
+            leoProfanity.loadDictionary("fr");
+        }
+    }, [profanityLanguage, preventProfanity]);
     useEffect(function () {
         var q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
         var unsubscribe = onSnapshot(q, function (snapshot) {
@@ -320,11 +332,11 @@ var Comments = function (_a) {
                     .reverse()
                     .map(function (comment) { return (React.createElement("div", { className: "relative flex flex-col border border-gray-300 rounded-[8px] bg-gray-50 p-[15px] w-full gap-[10px] shadow-md ease-in-out duration-300 lg:w-[500px]", key: comment.id },
                     React.createElement("div", { className: "flex items-center justify-between gap-2" },
-                        React.createElement("div", { className: "flex flex-wrap items-center gap-2" },
+                        React.createElement("div", { className: "flex flex-wrap items-center gap-3" },
                             React.createElement("img", { src: comment.userImage, alt: comment.username, className: "w-[40px] h-[40px] rounded-full" }),
                             React.createElement("h3", { className: " font-grotesk-variable text-l text-slate-900 " }, formatUsername(comment.username)),
                             React.createElement("div", { className: "flex flex-col items-start" },
-                                React.createElement("div", { className: styles.created },
+                                React.createElement("div", null,
                                     React.createElement("span", { className: "font-inter-regular text-xsm  text-slate-900 " }, texts.dateThe +
                                         " " +
                                         moment(comment.createdAt)

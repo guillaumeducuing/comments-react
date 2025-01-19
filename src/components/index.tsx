@@ -24,6 +24,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import leoProfanity from "leo-profanity";
 import moment from "moment";
+import "moment/locale/fr";
 import "../index.css";
 interface CommentProps {
   firebaseConfig: object;
@@ -43,13 +44,17 @@ interface CommentProps {
     dateAt?: string;
     dateThe?: string;
     dateEdit?: string;
+    btnModalConfirm?: string;
+    titleModalDelete?: string;
+    connexionTitle?: string;
+    connexionButton?: string;
+    btnLogin?: string;
+    btnLogout?: string;
   };
   preventProfanity?: boolean;
+  profanityLanguage?: string;
   preventMultiPosts?: boolean;
   maxChars?: number;
-  db: Firestore;
-  app: Firestore;
-  auth: any;
 }
 interface CommentType {
   id: string;
@@ -61,11 +66,11 @@ interface CommentType {
   createdAt: Date;
   updatedAt: Date;
 }
+type ProfanityLanguage = "fr" | "en" | "ru";
 
 const Comments: React.FC<CommentProps> = ({
   firebaseConfig,
   pageUid,
-  styles = {},
   lang = "fr-fr",
   texts = {
     placeholder: "Votre commentaire",
@@ -89,12 +94,12 @@ const Comments: React.FC<CommentProps> = ({
     btnLogout: "Déconnexion"
   } as any,
   preventProfanity = true,
+  profanityLanguage = "fr",
   preventMultiPosts = true,
   maxChars = 1000
 }) => {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const [comment, setComment] = useState<string>("");
@@ -111,7 +116,22 @@ const Comments: React.FC<CommentProps> = ({
     const lastName = names[names.length - 1];
     return `${firstName} ${lastName.charAt(0)}.`;
   };
-  preventProfanity && leoProfanity.loadDictionary("fr");
+
+  // preventProfanity
+  useEffect(() => {
+    const validLanguages: ProfanityLanguage[] = ["fr", "en", "ru"];
+    if (
+      preventProfanity &&
+      validLanguages.includes(profanityLanguage as ProfanityLanguage)
+    ) {
+      leoProfanity.loadDictionary(profanityLanguage as ProfanityLanguage);
+    } else {
+      console.warn(
+        `Language '${profanityLanguage}' is not supported by leo-profanity. Defaulting to 'fr'.`
+      );
+      leoProfanity.loadDictionary("fr");
+    }
+  }, [profanityLanguage, preventProfanity]);
 
   useEffect(() => {
     const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
@@ -407,7 +427,7 @@ const Comments: React.FC<CommentProps> = ({
                   key={comment.id}
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <div className="flex flex-wrap items-center gap-2">
+                    <div className="flex flex-wrap items-center gap-3">
                       <img
                         src={comment.userImage}
                         alt={comment.username}
@@ -417,7 +437,7 @@ const Comments: React.FC<CommentProps> = ({
                         {formatUsername(comment.username)}
                       </h3>
                       <div className="flex flex-col items-start">
-                        <div className={styles.created}>
+                        <div>
                           <span className="font-inter-regular text-xsm  text-slate-900 ">
                             {texts.dateThe +
                               " " +
