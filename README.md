@@ -49,6 +49,16 @@ const firebaseConfig = {
   };
 ```
 
+### 1. Add Google Authentication
+
+![Google Auth](https://images.prismic.io/lecodeurnormandv2/Z444dJbqstJ99obX_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8012.48.40.png?auto=format,compress "Google Auth")
+
+### 2. Create collection named "comments" (empty, this module will hydrate it)
+
+![Comments module](https://images.prismic.io/lecodeurnormandv2/Z444dZbqstJ99obY_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8012.48.59.png?auto=format,compress "Comments module")
+
+### 3. Protect your data with rules
+
 ## Exemple of your component
 
 ```jsx
