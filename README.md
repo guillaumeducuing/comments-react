@@ -55,9 +55,11 @@ const firebaseConfig = {
 
 ### 2. Create collection named "comments" (empty, this module will hydrate it)
 
-![Comments module](https://images.prismic.io/lecodeurnormandv2/Z444dZbqstJ99obY_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8012.48.59.png?auto=format,compress "Comments module")
+![Create collection](https://images.prismic.io/lecodeurnormandv2/Z444dZbqstJ99obY_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8012.48.59.png?auto=format,compress "Create collection")
 
-### 3. Protect your data with rules
+### 3. Protect with rules
+
+![Rules](https://images.prismic.io/lecodeurnormandv2/Z445_ZbqstJ99ob7_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8012.56.28.png?auto=format,compress "Rules")
 
 ## Exemple of your component
 
