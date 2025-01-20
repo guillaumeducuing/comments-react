@@ -5,7 +5,6 @@ interface CommentProps {
     firebaseConfig: object;
     pageUid: string;
     lang?: string;
-    styles?: Record<string, string>;
     texts?: {
         placeholder?: string;
         btnAdd?: string;
@@ -26,6 +25,11 @@ interface CommentProps {
         btnLogin?: string;
         btnLogout?: string;
     };
+    backgroundColor?: string;
+    textColor?: string;
+    buttonColor?: string;
+    fontPrimary?: string;
+    fontSecondary?: string;
     preventProfanity?: boolean;
     profanityLanguage?: string;
     preventMultiPosts?: boolean;

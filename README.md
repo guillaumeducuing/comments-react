@@ -1,7 +1,7 @@
 # Comments-React Module (using Firebase)
 
-![Comments module](https://images.prismic.io/lecodeurnormandv2/Z41zdJbqstJ99nY1_Captured%E2%80%99e%CC%81cran2025-01-19a%CC%8022.49.20.png?auto=format,compress "Comments module")
-![Comments module](https://images.prismic.io/lecodeurnormandv2/Z41wNZbqstJ99nYp_Captured%E2%80%99e%CC%81cran2025-01-19a%CC%8022.35.25.png?auto=format,compress "Comments module")
+![Comments module](https://images.prismic.io/lecodeurnormandv2/Z46p5pbqstJ99p0h_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8020.51.29.png?auto=format,compress "Comments module")
+![Comments module](https://images.prismic.io/lecodeurnormandv2/Z46p5pbqstJ99p0g_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8020.50.39.png?auto=format,compress "Comments module")
 
 Effortlessly add a robust comment system to your blog or application! 🚀  
 The **Comments-React Module** is a lightweight, feature-packed library built with modern tools like **React**, **TypeScript**, and **Tailwind CSS**.  
@@ -19,7 +19,6 @@ Designed for flexibility and ease of use, it offers a seamless way to manage com
   - Adjustable character limits to suit your needs.
   - Prevent spamming with anti-multi-post protection.
 - **Modern Tech Stack**: Built with **React**, **TypeScript**, and styled using **Tailwind CSS** for a clean and responsive UI.
-- More features are coming soon !
 
 ---
 
@@ -103,10 +102,9 @@ const Comment = ({ pageUid, lang }: { pageUid: string, lang: string }) => {
         btnModalConfirm: "Confirm",
         titleModalDelete: "Delete this comment",
         connexionTitle: "Log in to add a comment",
-        connexionButton: "Log in with Google",
-        btnLogin: "Log in with Google",
-        btnLogout: "Log out"
+        connexionButton: "Log in with Google"
       }}
+      backgroundColor="#FFFFFF"
       lang={lang}
     />
   );

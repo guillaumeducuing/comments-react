@@ -30,7 +30,6 @@ interface CommentProps {
   firebaseConfig: object;
   pageUid: string;
   lang?: string;
-  styles?: Record<string, string>;
   texts?: {
     placeholder?: string;
     btnAdd?: string;
@@ -51,6 +50,11 @@ interface CommentProps {
     btnLogin?: string;
     btnLogout?: string;
   };
+  backgroundColor?: string;
+  textColor?: string;
+  buttonColor?: string;
+  fontPrimary?: string;
+  fontSecondary?: string;
   preventProfanity?: boolean;
   profanityLanguage?: string;
   preventMultiPosts?: boolean;
@@ -88,10 +92,13 @@ const Comments: React.FC<CommentProps> = ({
     btnModalConfirm: "Confirm",
     titleModalDelete: "Delete this comment",
     connexionTitle: "Log in to add a comment",
-    connexionButton: "Log in with Google",
-    btnLogin: "Log in with Google",
-    btnLogout: "Log out"
+    connexionButton: "Log in with Google"
   } as any,
+  backgroundColor = "bg-white",
+  textColor = "text-slate-900",
+  buttonColor = "bg-slate-900",
+  fontPrimary = "font-grotesk-variable",
+  fontSecondary = "font-inter-regular",
   preventProfanity = true,
   profanityLanguage = "en",
   preventMultiPosts = true,
@@ -293,7 +300,10 @@ const Comments: React.FC<CommentProps> = ({
   };
 
   return (
-    <section className="pt-[60px] pb-[60px] bg-white z-10 relative w-full">
+    <section
+      className={`pt-[60px] pb-[60px] ${backgroundColor} z-10 relative w-full`}
+      style={{ backgroundColor: backgroundColor }}
+    >
       <div className="container px-4 w-full lg:mx-auto lg:px-0">
         <div className="flex flex-col-reverse justify-between lg:flex-row">
           <div className="flex h-full sticky top-[120px] w-full lg:w-[500px]">
@@ -308,7 +318,7 @@ const Comments: React.FC<CommentProps> = ({
                     alt={user.displayName || undefined}
                     className="w-[40px] h-[40px] rounded-full"
                   />
-                  <h3 className="text-xl font-grotesk-variable text-slate-900 ">
+                  <h3 className={`text-xl ${fontPrimary} ${textColor} `}>
                     {formatUsername(user.displayName)}
                   </h3>
                   {user && (
@@ -343,18 +353,20 @@ const Comments: React.FC<CommentProps> = ({
                   maxLength={maxLength}
                   placeholder={texts.placeholder}
                   required
-                  className="h-[120px] font-inter-regular resize-none outline-none p-[10px] border-gray-500 border-[1px] rounded-[8px] text-slate-900 placeholder:text-gray-500"
+                  className={`h-[120px] ${fontSecondary} resize-none outline-none p-[10px] border-gray-500 border-[1px] rounded-[8px] ${textColor} placeholder:text-gray-500`}
                 />
                 <div className="flex flex-col gap-[8px] w-full ">
                   {comment.length > 0 && (
-                    <span className="font-inter-regular text-xsm text-gray-500 text-right -mt-2">
+                    <span
+                      className={`${fontSecondary} text-xsm text-gray-500 text-right -mt-2`}
+                    >
                       {maxLength - comment.length} {texts.characLeft}
                     </span>
                   )}
                   <div className="flex gap-[8px] w-full">
                     <button
                       type="submit"
-                      className="w-full bg-slate-900 text-white px-[10px] py-[8px] rounded-[8px] font-grotesk-variable hover:bg-slate-800 ease-in-out duration-300"
+                      className={`w-full ${buttonColor} text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} hover:bg-opacity-90 ease-in-out duration-300`}
                     >
                       {editingCommentId ? texts.btnEdit : texts.btnAdd}
                     </button>
@@ -362,14 +374,14 @@ const Comments: React.FC<CommentProps> = ({
                       <button
                         type="button"
                         onClick={handleCancelEdit}
-                        className="w-full bg-slate-900 text-white px-[10px] py-[8px] rounded-[8px] font-grotesk-variable hover:bg-slate-800 ease-in-out duration-300"
+                        className={`w-full ${buttonColor} text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} hover:bg-opacity-90  ease-in-out duration-300`}
                       >
                         {texts.btnCancel}
                       </button>
                     )}
                   </div>
                   {errorMessage && (
-                    <span className="font-inter-regular text-red-400">
+                    <span className={`${fontSecondary} text-red-400`}>
                       {errorMessage}
                     </span>
                   )}
@@ -378,7 +390,9 @@ const Comments: React.FC<CommentProps> = ({
             ) : (
               <div className="connexion flex flex-col gap-[20px] w-full">
                 <div className="text-center">
-                  <h4 className="font-grotesk-variable text-xl text-slate-900 mt-8 lg:mt-0">
+                  <h4
+                    className={`${fontPrimary} text-xl ${textColor} mt-8 lg:mt-0`}
+                  >
                     {texts.connexionTitle}
                   </h4>
                 </div>
@@ -409,7 +423,9 @@ const Comments: React.FC<CommentProps> = ({
                       fill="#EB4335"
                     />
                   </svg>
-                  <h4 className="text-xl font-bold text-slate-900 ">
+                  <h4
+                    className={`${fontPrimary} text-xl font-bold ${textColor} `}
+                  >
                     {texts.connexionButton}
                   </h4>
                 </div>
@@ -432,12 +448,14 @@ const Comments: React.FC<CommentProps> = ({
                         alt={comment.username}
                         className="w-[40px] h-[40px] rounded-full"
                       />
-                      <h3 className=" font-grotesk-variable text-l text-slate-900 ">
+                      <h3 className={`${fontPrimary} text-l ${textColor}`}>
                         {formatUsername(comment.username)}
                       </h3>
                       <div className="flex flex-col items-start">
                         <div>
-                          <span className="font-inter-regular text-xsm  text-slate-900 ">
+                          <span
+                            className={`${fontSecondary} text-xsm  ${textColor}`}
+                          >
                             {texts.dateThe +
                               " " +
                               moment(comment.createdAt)
@@ -453,7 +471,9 @@ const Comments: React.FC<CommentProps> = ({
                         </div>
                         {comment.updatedAt && (
                           <div className="-mt-[5px]">
-                            <span className="font-inter-regular text-xsm text-slate-900 ">
+                            <span
+                              className={`${fontSecondary} text-xsm ${textColor} `}
+                            >
                               {texts.dateEdit +
                                 " " +
                                 moment(comment.updatedAt)
@@ -509,27 +529,27 @@ const Comments: React.FC<CommentProps> = ({
                       </div>
                     )}
                   </div>
-                  <p className=" font-grotesk-variable text-md text-slate-900 ">
+                  <p className={`${fontSecondary} text-md ${textColor}`}>
                     {comment.comment}
                   </p>
                   {commentToDelete === comment.id && (
                     <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-20 backdrop-blur-sm rounded-[8px] z-10">
                       <div className="flex flex-col gap-[20px] w-full h-full justify-center items-center ">
-                        <h4 className="font-grotesk-variable text-l text-slate-900">
+                        <h4 className={`${fontPrimary} text-xl ${textColor}`}>
                           {texts.titleModalDelete}
                         </h4>
                         <div className="flex gap-[8px] w-full justify-center">
                           <button
                             type="button"
                             onClick={() => handleDeleteComment()}
-                            className="w-fit bg-slate-900 text-white px-[10px] py-[8px] rounded-[8px] font-grotesk-variable hover:bg-slate-800 ease-in-out duration-300"
+                            className={`w-fit ${buttonColor} text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} hover:bg-opacity-90 ease-in-out duration-300`}
                           >
                             {texts.btnModalConfirm}
                           </button>
                           <button
                             type="button"
                             onClick={() => closeModal()}
-                            className="w-fit bg-slate-900 text-white px-[10px] py-[8px] rounded-[8px] font-grotesk-variable hover:bg-slate-800 ease-in-out duration-300"
+                            className={`w-fit ${buttonColor} text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} hover:bg-opacity-90 ease-in-out duration-300`}
                           >
                             {texts.btnCancel}
                           </button>
