@@ -1,6 +1,6 @@
 {
   "name": "comments-react",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "A React component to add comments with Firebase support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

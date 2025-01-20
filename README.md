@@ -7,6 +7,8 @@ Effortlessly add a robust comment system to your blog or application! 🚀
 The **Comments-React Module** is a lightweight, feature-packed library built with modern tools like **React**, **TypeScript**, and **Tailwind CSS**.  
 Designed for flexibility and ease of use, it offers a seamless way to manage comments while maintaining control over customization and moderation.
 
+![Démonstration GIF](https://images.prismic.io/lecodeurnormandv2/Z46ylpbqstJ99p4T_comments-react-1-.gif?auto=format,compress)
+
 ---
 
 ## ✨ Features
@@ -34,7 +36,7 @@ npm install comments-react
 
 ## Firebase config
 
-this module use firebase config so you have to [create an account](https://firebase.google.com/products/firestore).(choose Firestore Database)
+this module use firebase config so you have to [create an account](https://firebase.google.com/products/firestore).(it's free, choose Firestore Database)
 
 ```
 const firebaseConfig = {
