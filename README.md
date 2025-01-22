@@ -3,7 +3,7 @@
 ![Comments module](https://images.prismic.io/lecodeurnormandv2/Z46p5pbqstJ99p0h_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8020.51.29.png?auto=format,compress "Comments module")
 ![Comments module](https://images.prismic.io/lecodeurnormandv2/Z46p5pbqstJ99p0g_Captured%E2%80%99e%CC%81cran2025-01-20a%CC%8020.50.39.png?auto=format,compress "Comments module")
 
-Effortlessly add a robust comment system to your blog or application! 🚀  
+Effortlessly add a robust comment system to your blog or website! 🚀  
 The **Comments-React Module** is a lightweight, feature-packed library built with modern tools like **React**, **TypeScript**, and **Tailwind CSS**.  
 Designed for flexibility and ease of use, it offers a seamless way to manage comments while maintaining control over customization and moderation.
 
@@ -18,6 +18,7 @@ Designed for flexibility and ease of use, it offers a seamless way to manage com
 - **Smart Moderation**: Built-in profanity filtering using the powerful [leo-profanity](https://www.npmjs.com/package/leo-profanity) module.
 - **Customizable**:
   - Support for changing languages and text.
+  - Change color for button, text(and svg) and background !
   - Adjustable character limits to suit your needs.
   - Prevent spamming with anti-multi-post protection.
 - **Modern Tech Stack**: Built with **React**, **TypeScript**, and styled using **Tailwind CSS** for a clean and responsive UI.
@@ -86,7 +87,7 @@ const Comment = ({ pageUid, lang }: { pageUid: string, lang: string }) => {
       pageUid={pageUid}
       preventProfanity={true}
       profanityLanguage="en" // only "en","fr","ru"
-      preventMultiPosts={true} // the user have to wait other comment to post another
+      preventMultiPosts={true} // the user have to wait other comment to post again
       maxChars={1000}
       texts={{
         placeholder: "Your comment",
@@ -107,7 +108,10 @@ const Comment = ({ pageUid, lang }: { pageUid: string, lang: string }) => {
         connexionButton: "Log in with Google"
       }}
       backgroundColor="#FFFFFF"
-      lang={lang}
+      textColor="#10172A" // surcharge svg color too
+      buttonColor="#10172A"
+      buttonHoverColor="#232d47"
+      lang={lang} // for date only
     />
   );
 };

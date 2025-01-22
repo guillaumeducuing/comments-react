@@ -28,6 +28,7 @@ interface CommentProps {
     backgroundColor?: string;
     textColor?: string;
     buttonColor?: string;
+    buttonHoverColor?: string;
     fontPrimary?: string;
     fontSecondary?: string;
     preventProfanity?: boolean;

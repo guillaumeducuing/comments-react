@@ -53,6 +53,7 @@ interface CommentProps {
   backgroundColor?: string;
   textColor?: string;
   buttonColor?: string;
+  buttonHoverColor?: string;
   fontPrimary?: string;
   fontSecondary?: string;
   preventProfanity?: boolean;
@@ -94,9 +95,10 @@ const Comments: React.FC<CommentProps> = ({
     connexionTitle: "Log in to add a comment",
     connexionButton: "Log in with Google"
   } as any,
-  backgroundColor = "bg-white",
-  textColor = "text-slate-900",
-  buttonColor = "bg-slate-900",
+  backgroundColor = "#FFFFFF",
+  textColor = "#10172A",
+  buttonColor = "#10172A",
+  buttonHoverColor = "#232d47",
   fontPrimary = "font-grotesk-variable",
   fontSecondary = "font-inter-regular",
   preventProfanity = true,
@@ -298,7 +300,6 @@ const Comments: React.FC<CommentProps> = ({
       }
     }
   };
-
   return (
     <section
       className={`pt-[60px] pb-[60px] ${backgroundColor} z-10 relative w-full`}
@@ -318,7 +319,10 @@ const Comments: React.FC<CommentProps> = ({
                     alt={user.displayName || undefined}
                     className="w-[40px] h-[40px] rounded-full"
                   />
-                  <h3 className={`text-xl ${fontPrimary} ${textColor} `}>
+                  <h3
+                    className={`text-xl ${fontPrimary} ${textColor} `}
+                    style={{ color: textColor }}
+                  >
                     {formatUsername(user.displayName)}
                   </h3>
                   {user && (
@@ -329,14 +333,17 @@ const Comments: React.FC<CommentProps> = ({
                       >
                         <path
                           className="stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
+                          style={{ stroke: textColor }}
                           d="M21 12L13 12"
                         />
                         <path
                           className="stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
+                          style={{ stroke: textColor }}
                           d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
                         />
                         <path
                           className="stroke-black stroke-2 stroke-linecap-round stroke-linejoin-round"
+                          style={{ stroke: textColor }}
                           d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
                         />
                       </svg>
@@ -353,8 +360,15 @@ const Comments: React.FC<CommentProps> = ({
                   maxLength={maxLength}
                   placeholder={texts.placeholder}
                   required
-                  className={`h-[120px] ${fontSecondary} resize-none outline-none p-[10px] border-gray-500 border-[1px] rounded-[8px] ${textColor} placeholder:text-gray-500`}
+                  className={`h-[120px] ${fontSecondary} resize-none outline-none p-[10px] border-gray-500 border-[1px] rounded-[8px] ${textColor} placeholder:text-gray-500 custom-placeholder`}
+                  style={{ color: textColor }}
                 />
+                <style>{`
+                  .custom-placeholder::placeholder {
+                    color: ${textColor};
+                    opacity: 0.3;
+                  }
+                `}</style>
                 <div className="flex flex-col gap-[8px] w-full ">
                   {comment.length > 0 && (
                     <span
@@ -366,7 +380,17 @@ const Comments: React.FC<CommentProps> = ({
                   <div className="flex gap-[8px] w-full">
                     <button
                       type="submit"
-                      className={`w-full ${buttonColor} text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} hover:bg-opacity-90 ease-in-out duration-300`}
+                      className={`w-full  text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} ease-in-out duration-300`}
+                      style={{
+                        backgroundColor: buttonColor
+                      }}
+                      onMouseEnter={e =>
+                        (e.currentTarget.style.backgroundColor =
+                          buttonHoverColor)
+                      }
+                      onMouseLeave={e =>
+                        (e.currentTarget.style.backgroundColor = buttonColor)
+                      }
                     >
                       {editingCommentId ? texts.btnEdit : texts.btnAdd}
                     </button>
@@ -374,7 +398,17 @@ const Comments: React.FC<CommentProps> = ({
                       <button
                         type="button"
                         onClick={handleCancelEdit}
-                        className={`w-full ${buttonColor} text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} hover:bg-opacity-90  ease-in-out duration-300`}
+                        className={`w-full  text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} ease-in-out duration-300`}
+                        style={{
+                          backgroundColor: buttonColor
+                        }}
+                        onMouseEnter={e =>
+                          (e.currentTarget.style.backgroundColor =
+                            buttonHoverColor)
+                        }
+                        onMouseLeave={e =>
+                          (e.currentTarget.style.backgroundColor = buttonColor)
+                        }
                       >
                         {texts.btnCancel}
                       </button>
@@ -392,6 +426,7 @@ const Comments: React.FC<CommentProps> = ({
                 <div className="text-center">
                   <h4
                     className={`${fontPrimary} text-xl ${textColor} mt-8 lg:mt-0`}
+                    style={{ color: textColor }}
                   >
                     {texts.connexionTitle}
                   </h4>
@@ -425,6 +460,7 @@ const Comments: React.FC<CommentProps> = ({
                   </svg>
                   <h4
                     className={`${fontPrimary} text-xl font-bold ${textColor} `}
+                    style={{ color: textColor }}
                   >
                     {texts.connexionButton}
                   </h4>
@@ -448,13 +484,17 @@ const Comments: React.FC<CommentProps> = ({
                         alt={comment.username}
                         className="w-[40px] h-[40px] rounded-full"
                       />
-                      <h3 className={`${fontPrimary} text-l ${textColor}`}>
+                      <h3
+                        className={`${fontPrimary} text-l ${textColor}`}
+                        style={{ color: textColor }}
+                      >
                         {formatUsername(comment.username)}
                       </h3>
                       <div className="flex flex-col items-start">
                         <div>
                           <span
                             className={`${fontSecondary} text-xsm  ${textColor}`}
+                            style={{ color: textColor }}
                           >
                             {texts.dateThe +
                               " " +
@@ -473,6 +513,7 @@ const Comments: React.FC<CommentProps> = ({
                           <div className="-mt-[5px]">
                             <span
                               className={`${fontSecondary} text-xsm ${textColor} `}
+                              style={{ color: textColor }}
                             >
                               {texts.dateEdit +
                                 " " +
@@ -498,11 +539,13 @@ const Comments: React.FC<CommentProps> = ({
                             viewBox="0 0 24 24"
                           >
                             <path
-                              className="stroke-black stroke-2"
+                              className="stroke-2"
+                              style={{ stroke: textColor }}
                               d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
                             />
                             <path
-                              className="stroke-black stroke-2"
+                              className=" stroke-2"
+                              style={{ stroke: textColor }}
                               d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
                             />
                           </svg>
@@ -516,10 +559,12 @@ const Comments: React.FC<CommentProps> = ({
                           >
                             <path
                               className="fill-black"
+                              style={{ fill: textColor }}
                               d="M10.0303 8.96965C9.73741 8.67676 9.26253 8.67676 8.96964 8.96965C8.67675 9.26255 8.67675 9.73742 8.96964 10.0303L10.9393 12L8.96966 13.9697C8.67677 14.2625 8.67677 14.7374 8.96966 15.0303C9.26255 15.3232 9.73743 15.3232 10.0303 15.0303L12 13.0607L13.9696 15.0303C14.2625 15.3232 14.7374 15.3232 15.0303 15.0303C15.3232 14.7374 15.3232 14.2625 15.0303 13.9696L13.0606 12L15.0303 10.0303C15.3232 9.73744 15.3232 9.26257 15.0303 8.96968C14.7374 8.67678 14.2625 8.67678 13.9696 8.96968L12 10.9393L10.0303 8.96965Z"
                             />
                             <path
                               className="fill-black"
+                              style={{ fill: textColor }}
                               fillRule="evenodd"
                               clipRule="evenodd"
                               d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM2.75 12C2.75 6.89137 6.89137 2.75 12 2.75C17.1086 2.75 21.25 6.89137 21.25 12C21.25 17.1086 17.1086 21.25 12 21.25C6.89137 21.25 2.75 17.1086 2.75 12Z"
@@ -529,27 +574,55 @@ const Comments: React.FC<CommentProps> = ({
                       </div>
                     )}
                   </div>
-                  <p className={`${fontSecondary} text-md ${textColor}`}>
+                  <p
+                    className={`${fontSecondary} text-md ${textColor}`}
+                    style={{ color: textColor }}
+                  >
                     {comment.comment}
                   </p>
                   {commentToDelete === comment.id && (
                     <div className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-20 backdrop-blur-sm rounded-[8px] z-10">
                       <div className="flex flex-col gap-[20px] w-full h-full justify-center items-center ">
-                        <h4 className={`${fontPrimary} text-xl ${textColor}`}>
+                        <h4
+                          className={`${fontPrimary} text-xl ${textColor}`}
+                          style={{ color: textColor }}
+                        >
                           {texts.titleModalDelete}
                         </h4>
                         <div className="flex gap-[8px] w-full justify-center">
                           <button
                             type="button"
                             onClick={() => handleDeleteComment()}
-                            className={`w-fit ${buttonColor} text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} hover:bg-opacity-90 ease-in-out duration-300`}
+                            className={`w-fit text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} ease-in-out duration-300`}
+                            style={{
+                              backgroundColor: buttonColor
+                            }}
+                            onMouseEnter={e =>
+                              (e.currentTarget.style.backgroundColor =
+                                buttonHoverColor)
+                            }
+                            onMouseLeave={e =>
+                              (e.currentTarget.style.backgroundColor =
+                                buttonColor)
+                            }
                           >
                             {texts.btnModalConfirm}
                           </button>
                           <button
                             type="button"
                             onClick={() => closeModal()}
-                            className={`w-fit ${buttonColor} text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} hover:bg-opacity-90 ease-in-out duration-300`}
+                            className={`w-fit  text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} ease-in-out duration-300`}
+                            style={{
+                              backgroundColor: buttonColor
+                            }}
+                            onMouseEnter={e =>
+                              (e.currentTarget.style.backgroundColor =
+                                buttonHoverColor)
+                            }
+                            onMouseLeave={e =>
+                              (e.currentTarget.style.backgroundColor =
+                                buttonColor)
+                            }
                           >
                             {texts.btnCancel}
                           </button>
