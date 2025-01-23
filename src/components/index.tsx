@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   collection,
   query,
   orderBy,
-  onSnapshot,
   addDoc,
   getDocs,
   serverTimestamp,
   deleteDoc,
   doc,
   updateDoc,
-  Firestore
-} from "firebase/firestore";
+  getFirestore
+} from "firebase/firestore/lite";
 import {
   getAuth,
   onAuthStateChanged,
@@ -21,7 +20,6 @@ import {
   User
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 import leoProfanity from "leo-profanity";
 import moment from "moment";
 import "moment/locale/fr";
@@ -117,6 +115,7 @@ const Comments: React.FC<CommentProps> = ({
   const [user, setUser] = useState<User | null>(null);
   const [errorMessage, setErrorMessage] = useState<Object | any>(null);
   const maxLength = maxChars;
+  const componentRef = useRef<HTMLElement>(null);
 
   const formatUsername = (fullName: any) => {
     const names = fullName.split(" ");
@@ -141,10 +140,39 @@ const Comments: React.FC<CommentProps> = ({
     }
   }, [profanityLanguage, preventProfanity]);
 
+  // Fetch comments once
   useEffect(() => {
-    const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+    const fetchComments = async () => {
+      try {
+        const q = query(
+          collection(db, "comments"),
+          orderBy("createdAt", "desc")
+        );
+        const snapshot = await getDocs(q);
 
-    const unsubscribe = onSnapshot(q, snapshot => {
+        const fetchedComments = snapshot.docs
+          .filter(doc => doc.data().postId === pageUid)
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: doc.data().createdAt?.toDate(),
+            updatedAt: doc.data().updatedAt?.toDate()
+          }));
+
+        setComments(fetchedComments as CommentType[]);
+      } catch (error) {
+        console.error("Error while fetching comments:", error);
+      }
+    };
+
+    fetchComments();
+  }, []);
+
+  const fetchComments = async () => {
+    try {
+      const q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
+
       const fetchedComments = snapshot.docs
         .filter(doc => doc.data().postId === pageUid)
         .map(doc => ({
@@ -154,10 +182,10 @@ const Comments: React.FC<CommentProps> = ({
           updatedAt: doc.data().updatedAt?.toDate()
         }));
       setComments(fetchedComments as CommentType[]);
-    });
-
-    return () => unsubscribe();
-  }, [pageUid]);
+    } catch (error) {
+      console.error("Error while fetching comments:", error);
+    }
+  };
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, currentUser => {
@@ -231,6 +259,7 @@ const Comments: React.FC<CommentProps> = ({
 
         setComment("");
         setErrorMessage(null);
+        fetchComments();
       } catch (error: unknown) {
         if (error instanceof Error) {
           console.error(
@@ -304,6 +333,7 @@ const Comments: React.FC<CommentProps> = ({
     <section
       className={`pt-[60px] pb-[60px] ${backgroundColor} z-10 relative w-full`}
       style={{ backgroundColor: backgroundColor }}
+      ref={componentRef}
     >
       <div className="container px-4 w-full lg:mx-auto lg:px-0">
         <div className="flex flex-col-reverse justify-between lg:flex-row">

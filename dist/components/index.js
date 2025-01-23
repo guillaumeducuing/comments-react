@@ -45,11 +45,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import React, { useState, useEffect } from "react";
-import { collection, query, orderBy, onSnapshot, addDoc, getDocs, serverTimestamp, deleteDoc, doc, updateDoc } from "firebase/firestore";
+import React, { useState, useEffect, useRef } from "react";
+import { collection, query, orderBy, addDoc, getDocs, serverTimestamp, deleteDoc, doc, updateDoc, getFirestore } from "firebase/firestore/lite";
 import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 import leoProfanity from "leo-profanity";
 import moment from "moment";
 import "moment/locale/fr";
@@ -84,6 +83,7 @@ var Comments = function (_a) {
     var _t = useState(null), user = _t[0], setUser = _t[1];
     var _u = useState(null), errorMessage = _u[0], setErrorMessage = _u[1];
     var maxLength = maxChars;
+    var componentRef = useRef(null);
     var formatUsername = function (fullName) {
         var names = fullName.split(" ");
         var firstName = names[0];
@@ -102,19 +102,62 @@ var Comments = function (_a) {
             leoProfanity.loadDictionary("fr");
         }
     }, [profanityLanguage, preventProfanity]);
+    // Fetch comments once
     useEffect(function () {
-        var q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
-        var unsubscribe = onSnapshot(q, function (snapshot) {
-            var fetchedComments = snapshot.docs
-                .filter(function (doc) { return doc.data().postId === pageUid; })
-                .map(function (doc) {
-                var _a, _b;
-                return (__assign(__assign({ id: doc.id }, doc.data()), { createdAt: (_a = doc.data().createdAt) === null || _a === void 0 ? void 0 : _a.toDate(), updatedAt: (_b = doc.data().updatedAt) === null || _b === void 0 ? void 0 : _b.toDate() }));
+        var fetchComments = function () { return __awaiter(void 0, void 0, void 0, function () {
+            var q, snapshot, fetchedComments, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+                        return [4 /*yield*/, getDocs(q)];
+                    case 1:
+                        snapshot = _a.sent();
+                        fetchedComments = snapshot.docs
+                            .filter(function (doc) { return doc.data().postId === pageUid; })
+                            .map(function (doc) {
+                            var _a, _b;
+                            return (__assign(__assign({ id: doc.id }, doc.data()), { createdAt: (_a = doc.data().createdAt) === null || _a === void 0 ? void 0 : _a.toDate(), updatedAt: (_b = doc.data().updatedAt) === null || _b === void 0 ? void 0 : _b.toDate() }));
+                        });
+                        setComments(fetchedComments);
+                        return [3 /*break*/, 3];
+                    case 2:
+                        error_1 = _a.sent();
+                        console.error("Error while fetching comments:", error_1);
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
             });
-            setComments(fetchedComments);
+        }); };
+        fetchComments();
+    }, []);
+    var fetchComments = function () { return __awaiter(void 0, void 0, void 0, function () {
+        var q, snapshot, fetchedComments, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    q = query(collection(db, "comments"), orderBy("createdAt", "desc"));
+                    return [4 /*yield*/, getDocs(q)];
+                case 1:
+                    snapshot = _a.sent();
+                    fetchedComments = snapshot.docs
+                        .filter(function (doc) { return doc.data().postId === pageUid; })
+                        .map(function (doc) {
+                        var _a, _b;
+                        return (__assign(__assign({ id: doc.id }, doc.data()), { createdAt: (_a = doc.data().createdAt) === null || _a === void 0 ? void 0 : _a.toDate(), updatedAt: (_b = doc.data().updatedAt) === null || _b === void 0 ? void 0 : _b.toDate() }));
+                    });
+                    setComments(fetchedComments);
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_2 = _a.sent();
+                    console.error("Error while fetching comments:", error_2);
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
         });
-        return function () { return unsubscribe(); };
-    }, [pageUid]);
+    }); };
     useEffect(function () {
         var unsubscribeAuth = onAuthStateChanged(auth, function (currentUser) {
             setUser(currentUser);
@@ -122,7 +165,7 @@ var Comments = function (_a) {
         return function () { return unsubscribeAuth(); };
     }, []);
     var handleSubmit = function (e) { return __awaiter(void 0, void 0, void 0, function () {
-        var emailPattern, urlPattern, cleanedComment, commentsRef, q, snapshot, userComments, consecutiveComments, commentRef, error_1;
+        var emailPattern, urlPattern, cleanedComment, commentsRef, q, snapshot, userComments, consecutiveComments, commentRef, error_3;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -191,14 +234,15 @@ var Comments = function (_a) {
                 case 6:
                     setComment("");
                     setErrorMessage(null);
+                    fetchComments();
                     return [3 /*break*/, 8];
                 case 7:
-                    error_1 = _a.sent();
-                    if (error_1 instanceof Error) {
-                        console.error("Error while adding or editing the comment:", error_1.message);
+                    error_3 = _a.sent();
+                    if (error_3 instanceof Error) {
+                        console.error("Error while adding or editing the comment:", error_3.message);
                     }
                     else {
-                        console.error("Unknown error", error_1);
+                        console.error("Unknown error", error_3);
                     }
                     return [3 /*break*/, 8];
                 case 8: return [2 /*return*/];
@@ -211,7 +255,7 @@ var Comments = function (_a) {
         setErrorMessage("");
     };
     var handleDeleteComment = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var commentRef, error_2;
+        var commentRef, error_4;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -230,8 +274,8 @@ var Comments = function (_a) {
                     setCommentToDelete(null);
                     return [3 /*break*/, 4];
                 case 3:
-                    error_2 = _a.sent();
-                    console.error("Error while deleting the comment:", error_2);
+                    error_4 = _a.sent();
+                    console.error("Error while deleting the comment:", error_4);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
             }
@@ -250,7 +294,7 @@ var Comments = function (_a) {
         setComment("");
     };
     var handleLogin = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var result, error_3;
+        var result, error_5;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -261,9 +305,9 @@ var Comments = function (_a) {
                     setUser(result.user);
                     return [3 /*break*/, 3];
                 case 2:
-                    error_3 = _a.sent();
-                    if (error_3 instanceof Error) {
-                        console.error("Error while logging in:", error_3.message);
+                    error_5 = _a.sent();
+                    if (error_5 instanceof Error) {
+                        console.error("Error while logging in:", error_5.message);
                     }
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
@@ -271,7 +315,7 @@ var Comments = function (_a) {
         });
     }); };
     var handleLogout = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var error_4;
+        var error_6;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -282,16 +326,16 @@ var Comments = function (_a) {
                     setUser(null);
                     return [3 /*break*/, 3];
                 case 2:
-                    error_4 = _a.sent();
-                    if (error_4 instanceof Error) {
-                        console.error("Error while logging out:", error_4.message);
+                    error_6 = _a.sent();
+                    if (error_6 instanceof Error) {
+                        console.error("Error while logging out:", error_6.message);
                     }
                     return [3 /*break*/, 3];
                 case 3: return [2 /*return*/];
             }
         });
     }); };
-    return (React.createElement("section", { className: "pt-[60px] pb-[60px] ".concat(backgroundColor, " z-10 relative w-full"), style: { backgroundColor: backgroundColor } },
+    return (React.createElement("section", { className: "pt-[60px] pb-[60px] ".concat(backgroundColor, " z-10 relative w-full"), style: { backgroundColor: backgroundColor }, ref: componentRef },
         React.createElement("div", { className: "container px-4 w-full lg:mx-auto lg:px-0" },
             React.createElement("div", { className: "flex flex-col-reverse justify-between lg:flex-row" },
                 React.createElement("div", { className: "flex h-full sticky top-[120px] w-full lg:w-[500px]" }, user ? (React.createElement("form", { onSubmit: handleSubmit, className: "flex flex-col w-full gap-4 mt-5 lg:mt-0" },
