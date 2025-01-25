@@ -1,4 +1,8 @@
-*, ::before, ::after {
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz@0,14..32;1,14..32&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;1,9..40,500&display=swap");
+
+*, ::before, ::after{
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -52,7 +56,7 @@
   --tw-contain-style:  ;
 }
 
-::backdrop {
+::backdrop{
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
   --tw-translate-x: 0;
@@ -104,9 +108,13 @@
   --tw-contain-layout:  ;
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
-}/*
+}
+
+/*
 ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com
-*//*
+*/
+
+/*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
 */
@@ -423,6 +431,7 @@ menu {
 /*
 Reset default styling for dialogs.
 */
+
 dialog {
   padding: 0;
 }
@@ -463,6 +472,7 @@ button,
 /*
 Make sure disabled buttons don't get the pointer cursor.
 */
+
 :disabled {
   cursor: default;
 }
@@ -496,339 +506,320 @@ video {
 }
 
 /* Make elements with the HTML hidden attribute stay hidden by default */
+
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
-.container {
+.container{
   width: 100%;
 }
-@media (min-width: 640px) {
+@media (min-width: 640px){
 
-  .container {
+  .container{
     max-width: 640px;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 768px){
 
-  .container {
+  .container{
     max-width: 768px;
   }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1024px){
 
-  .container {
+  .container{
     max-width: 1024px;
   }
 }
-@media (min-width: 1280px) {
+@media (min-width: 1280px){
 
-  .container {
+  .container{
     max-width: 1280px;
   }
 }
-@media (min-width: 1536px) {
+@media (min-width: 1536px){
 
-  .container {
+  .container{
     max-width: 1536px;
   }
 }
-.absolute {
+.absolute{
   position: absolute;
 }
-.relative {
+.relative{
   position: relative;
 }
-.sticky {
+.sticky{
   position: sticky;
 }
-.left-0 {
+.left-0{
   left: 0px;
 }
-.top-0 {
+.top-0{
   top: 0px;
 }
-.top-\[120px\] {
+.top-\[120px\]{
   top: 120px;
 }
-.z-10 {
+.z-10{
   z-index: 10;
 }
-.-mt-2 {
+.-mt-2{
   margin-top: -0.5rem;
 }
-.-mt-\[5px\] {
+.-mt-\[5px\]{
   margin-top: -5px;
 }
-.mt-5 {
+.mt-5{
   margin-top: 1.25rem;
 }
-.mt-8 {
+.mt-8{
   margin-top: 2rem;
 }
-.flex {
+.flex{
   display: flex;
 }
-.h-\[120px\] {
+.h-\[120px\]{
   height: 120px;
 }
-.h-\[15px\] {
+.h-\[15px\]{
   height: 15px;
 }
-.h-\[20px\] {
+.h-\[20px\]{
   height: 20px;
 }
-.h-\[24px\] {
+.h-\[24px\]{
   height: 24px;
 }
-.h-\[40px\] {
+.h-\[40px\]{
   height: 40px;
 }
-.h-full {
+.h-full{
   height: 100%;
 }
-.w-\[15px\] {
+.w-\[15px\]{
   width: 15px;
 }
-.w-\[20px\] {
+.w-\[20px\]{
   width: 20px;
 }
-.w-\[24px\] {
+.w-\[24px\]{
   width: 24px;
 }
-.w-\[40px\] {
+.w-\[40px\]{
   width: 40px;
 }
-.w-fit {
+.w-fit{
   width: -moz-fit-content;
   width: fit-content;
 }
-.w-full {
+.w-full{
   width: 100%;
 }
-.cursor-pointer {
+.cursor-pointer{
   cursor: pointer;
 }
-.resize-none {
+.resize-none{
   resize: none;
 }
-.flex-col {
+.flex-col{
   flex-direction: column;
 }
-.flex-col-reverse {
+.flex-col-reverse{
   flex-direction: column-reverse;
 }
-.flex-wrap {
+.flex-wrap{
   flex-wrap: wrap;
 }
-.items-start {
+.items-start{
   align-items: flex-start;
 }
-.items-center {
+.items-center{
   align-items: center;
 }
-.justify-center {
+.justify-center{
   justify-content: center;
 }
-.justify-between {
+.justify-between{
   justify-content: space-between;
 }
-.gap-2 {
+.gap-2{
   gap: 0.5rem;
 }
-.gap-3 {
+.gap-3{
   gap: 0.75rem;
 }
-.gap-4 {
+.gap-4{
   gap: 1rem;
 }
-.gap-\[10px\] {
+.gap-\[10px\]{
   gap: 10px;
 }
-.gap-\[20px\] {
+.gap-\[20px\]{
   gap: 20px;
 }
-.gap-\[8px\] {
+.gap-\[8px\]{
   gap: 8px;
 }
-.rounded-\[10px\] {
+.rounded-\[10px\]{
   border-radius: 10px;
 }
-.rounded-\[8px\] {
+.rounded-\[8px\]{
   border-radius: 8px;
 }
-.rounded-full {
+.rounded-full{
   border-radius: 9999px;
 }
-.border {
+.border{
   border-width: 1px;
 }
-.border-\[1px\] {
+.border-\[1px\]{
   border-width: 1px;
 }
-.border-gray-300 {
+.border-gray-300{
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 }
-.border-gray-500 {
+.border-gray-500{
   --tw-border-opacity: 1;
   border-color: rgb(107 114 128 / var(--tw-border-opacity, 1));
 }
-.bg-gray-50 {
+.bg-gray-50{
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
-.bg-white {
+.bg-white{
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
-.bg-opacity-20 {
+.bg-opacity-20{
   --tw-bg-opacity: 0.2;
 }
-.fill-black {
+.fill-black{
   fill: #000;
 }
-.fill-none {
+.fill-none{
   fill: none;
 }
-.stroke-black {
+.stroke-black{
   stroke: #000;
 }
-.stroke-2 {
+.stroke-2{
   stroke-width: 2;
 }
-.p-\[10px\] {
+.p-\[10px\]{
   padding: 10px;
 }
-.p-\[15px\] {
+.p-\[15px\]{
   padding: 15px;
 }
-.px-4 {
+.px-4{
   padding-left: 1rem;
   padding-right: 1rem;
 }
-.px-\[10px\] {
+.px-\[10px\]{
   padding-left: 10px;
   padding-right: 10px;
 }
-.py-\[8px\] {
+.py-\[8px\]{
   padding-top: 8px;
   padding-bottom: 8px;
 }
-.pb-\[60px\] {
+.pb-\[60px\]{
   padding-bottom: 60px;
 }
-.pt-\[60px\] {
+.pt-\[60px\]{
   padding-top: 60px;
 }
-.text-center {
+.text-center{
   text-align: center;
 }
-.text-right {
+.text-right{
   text-align: right;
 }
-.font-grotesk-variable {
-  font-family: Grotesk-Variable;
+.font-dm{
+  font-family: DM Sans, serif;
 }
-.font-inter-regular {
-  font-family: Inter-Regular;
+.font-inter-regular{
+  font-family: Inter, sans-serif;
 }
-.text-xl {
+.text-xl{
   font-size: 1.25rem;
   line-height: 1.75rem;
 }
-.text-xsm {
+.text-xsm{
   font-size: 0.70rem;
 }
-.font-bold {
-  font-weight: 700;
-}
-.text-gray-500 {
+.text-gray-500{
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 }
-.text-red-400 {
+.text-red-400{
   --tw-text-opacity: 1;
   color: rgb(248 113 113 / var(--tw-text-opacity, 1));
 }
-.text-white {
+.text-white{
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
-.shadow-md {
+.shadow-md{
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
-.outline-none {
+.outline-none{
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
-.filter {
+.filter{
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
-.backdrop-blur-sm {
+.backdrop-blur-sm{
   --tw-backdrop-blur: blur(4px);
   -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
   backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
 }
-.duration-300 {
+.duration-300{
   transition-duration: 300ms;
 }
-.ease-in-out {
+.ease-in-out{
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-@font-face {
-  font-family: Inter-Bold;
-  font-display: swap;
-  src: url(./assets/fonts/Inter/Inter-Bold.ttf);
-}
-@font-face {
-  font-family: Inter-Regular;
-  font-display: swap;
-  src: url(./assets/fonts/Inter/Inter-Regular.ttf);
-}
-@font-face {
-  font-family: Grotesk-Variable;
-  src: url(./assets/fonts/Grotesk/Grotesk-Variable.ttf);
-  font-display: swap;
-  font-weight: 500;
-}
-.placeholder\:text-gray-500::-moz-placeholder {
+.placeholder\:text-gray-500::-moz-placeholder{
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 }
-.placeholder\:text-gray-500::placeholder {
+.placeholder\:text-gray-500::placeholder{
   --tw-text-opacity: 1;
   color: rgb(107 114 128 / var(--tw-text-opacity, 1));
 }
-.hover\:cursor-pointer:hover {
+.hover\:cursor-pointer:hover{
   cursor: pointer;
 }
-.hover\:bg-gray-200:hover {
+.hover\:bg-gray-200:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
 }
-@media (min-width: 1024px) {
+@media (min-width: 1024px){
 
-  .lg\:mx-auto {
+  .lg\:mx-auto{
     margin-left: auto;
     margin-right: auto;
   }
 
-  .lg\:mt-0 {
+  .lg\:mt-0{
     margin-top: 0px;
   }
 
-  .lg\:w-\[500px\] {
+  .lg\:w-\[500px\]{
     width: 500px;
   }
 
-  .lg\:flex-row {
+  .lg\:flex-row{
     flex-direction: row;
   }
 
-  .lg\:px-0 {
+  .lg\:px-0{
     padding-left: 0px;
     padding-right: 0px;
   }

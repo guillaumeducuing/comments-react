@@ -4,9 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        "inter-bold": ["Inter-Bold"],
-        "inter-regular": ["Inter-Regular"],
-        "grotesk-variable": ["Grotesk-Variable"]
+        "inter-regular": ["Inter", "sans-serif"],
+        dm: ["DM Sans", "serif"]
       },
       fontSize: {
         xsm: "0.70rem"

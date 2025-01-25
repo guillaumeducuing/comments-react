@@ -1,20 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz@0,14..32;1,14..32&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,500;1,9..40,500&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@font-face {
-  font-family: Inter-Bold;
-  font-display: swap;
-  src: url(./assets/fonts/Inter/Inter-Bold.ttf);
-}
-@font-face {
-  font-family: Inter-Regular;
-  font-display: swap;
-  src: url(./assets/fonts/Inter/Inter-Regular.ttf);
-}
-@font-face {
-  font-family: Grotesk-Variable;
-  src: url(./assets/fonts/Grotesk/Grotesk-Variable.ttf);
-  font-display: swap;
-  font-weight: 500;
-}

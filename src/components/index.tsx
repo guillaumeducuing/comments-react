@@ -97,7 +97,7 @@ const Comments: React.FC<CommentProps> = ({
   textColor = "#10172A",
   buttonColor = "#10172A",
   buttonHoverColor = "#232d47",
-  fontPrimary = "font-grotesk-variable",
+  fontPrimary = "font-dm",
   fontSecondary = "font-inter-regular",
   preventProfanity = true,
   profanityLanguage = "en",
@@ -489,7 +489,7 @@ const Comments: React.FC<CommentProps> = ({
                     />
                   </svg>
                   <h4
-                    className={`${fontPrimary} text-xl font-bold ${textColor} `}
+                    className={`${fontPrimary} text-xl  ${textColor} `}
                     style={{ color: textColor }}
                   >
                     {texts.connexionButton}
