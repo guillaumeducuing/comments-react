@@ -18,8 +18,7 @@ Designed for flexibility and ease of use, it offers a seamless way to manage com
 - **Smart Moderation**: Built-in profanity filtering using the powerful [leo-profanity](https://www.npmjs.com/package/leo-profanity) module.
 - **Customizable**:
   - Support for changing languages and text.
-  - Change color for button, text(and svg) and background.
-  - Change fonts (primary and secondary).
+  - Change color for button, text(and svg) and background !
   - Adjustable character limits to suit your needs.
   - Prevent spamming with anti-multi-post protection.
 - **Modern Tech Stack**: Built with **React**, **TypeScript**, and styled using **Tailwind CSS** for a clean and responsive UI.
@@ -82,47 +81,67 @@ const Comment = ({ pageUid, lang }: { pageUid: string, lang: string }) => {
     measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENTID
   };
 
-  return (
-    <Comments
-      firebaseConfig={firebaseConfig}
-      pageUid={pageUid}
-      preventProfanity={true}
-      profanityLanguage="en" // only "en","fr","ru"
-      preventMultiPosts={true} // the user have to wait other comment to post again
-      maxChars={1000}
-      texts={{
-        placeholder: "Your comment",
-        btnAdd: "Add a comment",
-        btnEdit: "Edit",
-        btnCancel: "Cancel",
-        errorCharac: "Please do not exceed 1000 characters",
-        errorAdd: "You need to wait for another user to add a comment",
-        errorUrlAndMail: "Please do not include URLs or email addresses",
-        characLeft: "Characters left",
-        title: "Comments",
-        dateAt: "at",
-        dateThe: "on",
-        dateEdit: "Edited on",
-        btnModalConfirm: "Confirm",
-        titleModalDelete: "Delete this comment",
-        connexionTitle: "Log in to add a comment",
-        connexionButton: "Log in with Google"
-      }}
-      backgroundColor="#FFFFFF"
-      textColor="#10172A" // surcharge svg color too
-      buttonColor="#10172A"
-      buttonHoverColor="#232d47"
-      fontPrim="" // add your personnal font if yout want
-      fontSec="" // add your custom font if your want
-      lang={lang} // for date only
-    />
-  );
+  return <Comments firebaseConfig={firebaseConfig} pageUid={pageUid} />;
 };
 
 export default Comment;
 ```
 
+## Props
+
+### Settings
+
+| Property          |  Types  |                         Default                          |
+| ----------------- | :-----: | :------------------------------------------------------: |
+| firebaseConfig    | object  |                      firebaseConfig                      |
+| pageUid           | string  |                         pageUid                          |
+| profanityLanguage | string  |               "en" (only "en", "fr", "ru")               |
+| preventMultiPosts | boolean | true (the user have to wait other comment to post again) |
+| maxChars          | number  |                           1000                           |
+| lang              | string  |                     lang (date only)                     |
+
+### Style
+
+| Property         | Types  |               Default               |
+| ---------------- | :----: | :---------------------------------: |
+| backgroundColor  | string |              "#FFFFFF"              |
+| textColor        | string | "#10172A" (surcharge svg color too) |
+| buttonColor      | string |              "#232d47"              |
+| buttonHoverColor | string |              "#10172A"              |
+| fontPrim         | string |     ""(override tailwind font)      |
+| fontSec          | string |     "" (override tailwind font)     |
+
+### Texts
+
+```
+texts={{
+    placeholder=""
+    btnAdd=""
+    ....
+}}
+```
+
+| Property         | Types  |                       Default                        |
+| ---------------- | :----: | :--------------------------------------------------: |
+| placeholder      | string |                    "Your comment"                    |
+| btnAdd           | string |                   "Add a comment"                    |
+| btnEdit          | string |                        "Edit"                        |
+| btnCancel        | string |                       "Cancel"                       |
+| errorCharac      | string |        "Please do not exceed 1000 characters"        |
+| errorAdd         | string | "You need to wait for another user to add a comment" |
+| errorUrlAndMail  | string |   "Please do not include URLs or email addresses"    |
+| characLeft       | string |                  "Characters left"                   |
+| title            | string |                      "Comments"                      |
+| dateAt           | string |                         "at"                         |
+| dateThe          | string |                         "on"                         |
+| dateEdit         | string |                     "Edited on"                      |
+| dateThe          | string |                         "on"                         |
+| btnModalConfirm  | string |                      "Confirm"                       |
+| titleModalDelete | string |                "Delete this comment"                 |
+| connexionTitle   | string |              "Log in to add a comment"               |
+| connexionButton  | string |                 "Log in with Google"                 |
+
 ## Contact
 
-If you have any question feel free to contact me on my website :)
+If you have any question feel free to contact me on my website 😉
 www.meetguillaume.dev
