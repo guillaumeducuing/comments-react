@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "concurrently \"tsc --watch\" \"postcss src/index.css -o dist/index.css --watch\"",
-    "build": "tsc && postcss src/index.css -o dist/index.css && cp -r ./src/assets ./dist",
+    "build": "tsc && postcss src/index.css -o dist/index.css && cp -r ./dist",
     "prepublishOnly": "npm run build"
   },
   "repository": {
