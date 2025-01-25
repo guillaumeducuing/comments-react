@@ -30,7 +30,9 @@ interface CommentProps {
     buttonColor?: string;
     buttonHoverColor?: string;
     fontPrimary?: string;
+    fontPrim?: string;
     fontSecondary?: string;
+    fontSec?: string;
     preventProfanity?: boolean;
     profanityLanguage?: string;
     preventMultiPosts?: boolean;

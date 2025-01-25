@@ -18,7 +18,8 @@ Designed for flexibility and ease of use, it offers a seamless way to manage com
 - **Smart Moderation**: Built-in profanity filtering using the powerful [leo-profanity](https://www.npmjs.com/package/leo-profanity) module.
 - **Customizable**:
   - Support for changing languages and text.
-  - Change color for button, text(and svg) and background !
+  - Change color for button, text(and svg) and background.
+  - Change fonts (primary and secondary).
   - Adjustable character limits to suit your needs.
   - Prevent spamming with anti-multi-post protection.
 - **Modern Tech Stack**: Built with **React**, **TypeScript**, and styled using **Tailwind CSS** for a clean and responsive UI.
@@ -111,6 +112,8 @@ const Comment = ({ pageUid, lang }: { pageUid: string, lang: string }) => {
       textColor="#10172A" // surcharge svg color too
       buttonColor="#10172A"
       buttonHoverColor="#232d47"
+      fontPrim="" // add your personnal font if yout want
+      fontSec="" // add your custom font if your want
       lang={lang} // for date only
     />
   );

@@ -53,7 +53,9 @@ interface CommentProps {
   buttonColor?: string;
   buttonHoverColor?: string;
   fontPrimary?: string;
+  fontPrim?: string;
   fontSecondary?: string;
+  fontSec?: string;
   preventProfanity?: boolean;
   profanityLanguage?: string;
   preventMultiPosts?: boolean;
@@ -98,7 +100,9 @@ const Comments: React.FC<CommentProps> = ({
   buttonColor = "#10172A",
   buttonHoverColor = "#232d47",
   fontPrimary = "font-dm",
+  fontPrim = "",
   fontSecondary = "font-inter-regular",
+  fontSec = "",
   preventProfanity = true,
   profanityLanguage = "en",
   preventMultiPosts = true,
@@ -351,7 +355,7 @@ const Comments: React.FC<CommentProps> = ({
                   />
                   <h3
                     className={`text-xl ${fontPrimary} ${textColor} `}
-                    style={{ color: textColor }}
+                    style={{ color: textColor, fontFamily: fontPrim }}
                   >
                     {formatUsername(user.displayName)}
                   </h3>
@@ -391,7 +395,7 @@ const Comments: React.FC<CommentProps> = ({
                   placeholder={texts.placeholder}
                   required
                   className={`h-[120px] ${fontSecondary} resize-none outline-none p-[10px] border-gray-500 border-[1px] rounded-[8px] ${textColor} placeholder:text-gray-500 custom-placeholder`}
-                  style={{ color: textColor }}
+                  style={{ color: textColor, fontFamily: fontSec }}
                 />
                 <style>{`
                   .custom-placeholder::placeholder {
@@ -403,6 +407,7 @@ const Comments: React.FC<CommentProps> = ({
                   {comment.length > 0 && (
                     <span
                       className={`${fontSecondary} text-xsm text-gray-500 text-right -mt-2`}
+                      style={{ fontFamily: fontSec }}
                     >
                       {maxLength - comment.length} {texts.characLeft}
                     </span>
@@ -412,7 +417,8 @@ const Comments: React.FC<CommentProps> = ({
                       type="submit"
                       className={`w-full  text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} ease-in-out duration-300`}
                       style={{
-                        backgroundColor: buttonColor
+                        backgroundColor: buttonColor,
+                        fontFamily: fontPrim
                       }}
                       onMouseEnter={e =>
                         (e.currentTarget.style.backgroundColor =
@@ -430,7 +436,8 @@ const Comments: React.FC<CommentProps> = ({
                         onClick={handleCancelEdit}
                         className={`w-full  text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} ease-in-out duration-300`}
                         style={{
-                          backgroundColor: buttonColor
+                          backgroundColor: buttonColor,
+                          fontFamily: fontPrim
                         }}
                         onMouseEnter={e =>
                           (e.currentTarget.style.backgroundColor =
@@ -445,7 +452,10 @@ const Comments: React.FC<CommentProps> = ({
                     )}
                   </div>
                   {errorMessage && (
-                    <span className={`${fontSecondary} text-red-400`}>
+                    <span
+                      className={`${fontSecondary} text-red-400`}
+                      style={{ fontFamily: fontSec }}
+                    >
                       {errorMessage}
                     </span>
                   )}
@@ -456,7 +466,7 @@ const Comments: React.FC<CommentProps> = ({
                 <div className="text-center">
                   <h4
                     className={`${fontPrimary} text-xl ${textColor} mt-8 lg:mt-0`}
-                    style={{ color: textColor }}
+                    style={{ color: textColor, fontFamily: fontPrim }}
                   >
                     {texts.connexionTitle}
                   </h4>
@@ -490,7 +500,7 @@ const Comments: React.FC<CommentProps> = ({
                   </svg>
                   <h4
                     className={`${fontPrimary} text-xl  ${textColor} `}
-                    style={{ color: textColor }}
+                    style={{ color: textColor, fontFamily: fontPrim }}
                   >
                     {texts.connexionButton}
                   </h4>
@@ -516,7 +526,7 @@ const Comments: React.FC<CommentProps> = ({
                       />
                       <h3
                         className={`${fontPrimary} text-l ${textColor}`}
-                        style={{ color: textColor }}
+                        style={{ color: textColor, fontFamily: fontPrim }}
                       >
                         {formatUsername(comment.username)}
                       </h3>
@@ -524,7 +534,7 @@ const Comments: React.FC<CommentProps> = ({
                         <div>
                           <span
                             className={`${fontSecondary} text-xsm  ${textColor}`}
-                            style={{ color: textColor }}
+                            style={{ color: textColor, fontFamily: fontSec }}
                           >
                             {texts.dateThe +
                               " " +
@@ -543,7 +553,7 @@ const Comments: React.FC<CommentProps> = ({
                           <div className="-mt-[5px]">
                             <span
                               className={`${fontSecondary} text-xsm ${textColor} `}
-                              style={{ color: textColor }}
+                              style={{ color: textColor, fontFamily: fontSec }}
                             >
                               {texts.dateEdit +
                                 " " +
@@ -606,7 +616,7 @@ const Comments: React.FC<CommentProps> = ({
                   </div>
                   <p
                     className={`${fontSecondary} text-md ${textColor}`}
-                    style={{ color: textColor }}
+                    style={{ color: textColor, fontFamily: fontSec }}
                   >
                     {comment.comment}
                   </p>
@@ -615,7 +625,7 @@ const Comments: React.FC<CommentProps> = ({
                       <div className="flex flex-col gap-[20px] w-full h-full justify-center items-center ">
                         <h4
                           className={`${fontPrimary} text-xl ${textColor}`}
-                          style={{ color: textColor }}
+                          style={{ color: textColor, fontFamily: fontPrim }}
                         >
                           {texts.titleModalDelete}
                         </h4>
@@ -625,7 +635,8 @@ const Comments: React.FC<CommentProps> = ({
                             onClick={() => handleDeleteComment()}
                             className={`w-fit text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} ease-in-out duration-300`}
                             style={{
-                              backgroundColor: buttonColor
+                              backgroundColor: buttonColor,
+                              fontFamily: fontPrim
                             }}
                             onMouseEnter={e =>
                               (e.currentTarget.style.backgroundColor =
@@ -643,7 +654,8 @@ const Comments: React.FC<CommentProps> = ({
                             onClick={() => closeModal()}
                             className={`w-fit  text-white px-[10px] py-[8px] rounded-[8px] ${fontPrimary} ease-in-out duration-300`}
                             style={{
-                              backgroundColor: buttonColor
+                              backgroundColor: buttonColor,
+                              fontFamily: fontPrim
                             }}
                             onMouseEnter={e =>
                               (e.currentTarget.style.backgroundColor =
